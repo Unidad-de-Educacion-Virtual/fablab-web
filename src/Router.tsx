@@ -11,18 +11,25 @@ import Ubicaciones from "./pages/ubicaciones/Ubicaciones";
 import TiposDocumento from "./pages/tipos-documento/TiposDocumento";
 import Municipios from "./pages/municipios/Municipios";
 import Colegios from "./pages/colegios/Colegios";
+import Participantes from "./pages/participantes/Participantes";
+import ProgramacionDetails from "./pages/programacion-details/ProgramacionDetails";
 
 export default function Router() {
   const router = createBrowserRouter(
     createRoutesFromElements(
       <Route path="/" element={<App />} errorElement={<NotFound />}>
         <Route path="talleres" element={<Talleres />}></Route>
-        <Route path="talleres/:id" element={<TallerDetails />}></Route>
+        <Route path="talleres/:idTaller" element={<TallerDetails />}></Route>
+        <Route
+          path="talleres/:idTaller/programaciones/:idProgramacion"
+          element={<ProgramacionDetails />}
+        ></Route>
         <Route path="instructores" element={<Instructores />}></Route>
         <Route path="ubicaciones" element={<Ubicaciones />}></Route>
         <Route path="tipos-documento" element={<TiposDocumento />}></Route>
         <Route path="municipios" element={<Municipios />}></Route>
         <Route path="colegios" element={<Colegios />}></Route>
+        <Route path="participantes" element={<Participantes />}></Route>
       </Route>
     )
   );

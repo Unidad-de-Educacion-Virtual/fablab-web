@@ -24,13 +24,11 @@ export default function Talleres() {
 
   return (
     <BasicCrudLayout
-      mode="view"
+      action="view"
       apiPath={API_TALLER_PATH}
       columns={columns}
       title="Talleres"
-      entityModal={
-        <TallerModal open={false} mode={"edit"} setOpen={() => {}} />
-      }
+      EntityModal={TallerModal}
     />
   );
 }

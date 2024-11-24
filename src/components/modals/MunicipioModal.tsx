@@ -6,15 +6,7 @@ import { Municipio, MunicipioForm } from "../../types/Municipio";
 import { useService } from "../../hooks/useService";
 import { getEntityById } from "../../services/BackendService";
 import { useEffect } from "react";
-
-interface MunicipioModalProps {
-  open: boolean;
-  mode: "edit" | "create";
-  enableDelete?: boolean;
-  id?: number;
-  setOpen: (open: boolean) => void;
-  triggerRefresh?: () => void;
-}
+import EntityModalProps from "./types/EntityModalProps";
 
 export default function MunicipioModal({
   open,
@@ -23,7 +15,7 @@ export default function MunicipioModal({
   id,
   setOpen,
   triggerRefresh,
-}: MunicipioModalProps) {
+}: EntityModalProps) {
   const { data: municipio } = useService(async () => {
     if (id) {
       return await getEntityById<Municipio>(API_MUNICIPIO_PATH, id);

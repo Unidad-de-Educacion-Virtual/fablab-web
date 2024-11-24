@@ -22,9 +22,7 @@ export default function TiposDocumento() {
       apiPath={API_TIPO_DOCUMENTO_PATH}
       columns={columns}
       title="Tipos de Documento"
-      entityModal={
-        <TipoDocumentoModal open={false} mode={"edit"} setOpen={() => {}} />
-      }
+      EntityModal={TipoDocumentoModal}
     />
   );
 }

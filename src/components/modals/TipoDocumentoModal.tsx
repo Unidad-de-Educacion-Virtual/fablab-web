@@ -6,15 +6,7 @@ import { getEntityById } from "../../services/BackendService";
 import { useService } from "../../hooks/useService";
 import { useEffect } from "react";
 import FormModal from "./FormModal";
-
-interface TipoDocumentoModalProps {
-  open: boolean;
-  mode: "edit" | "create";
-  enableDelete?: boolean;
-  id?: number;
-  setOpen: (open: boolean) => void;
-  triggerRefresh?: () => void;
-}
+import EntityModalProps from "./types/EntityModalProps";
 
 export default function TipoDocumentoModal({
   open,
@@ -23,7 +15,7 @@ export default function TipoDocumentoModal({
   id,
   setOpen,
   triggerRefresh,
-}: TipoDocumentoModalProps) {
+}: EntityModalProps) {
   const { data: tipoDocumento } = useService(async () => {
     if (id) {
       return await getEntityById<TipoDocumento>(API_TIPO_DOCUMENTO_PATH, id);

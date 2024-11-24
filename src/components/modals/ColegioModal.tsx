@@ -8,15 +8,7 @@ import { getEntity, getEntityById } from "../../services/BackendService";
 import { Municipio } from "../../types/Municipio";
 import Select from "../Select";
 import { useEffect } from "react";
-
-interface ColegioModalProps {
-  open: boolean;
-  mode: "edit" | "create";
-  enableDelete?: boolean;
-  id?: number;
-  setOpen: (open: boolean) => void;
-  triggerRefresh?: () => void;
-}
+import EntityModalProps from "./types/EntityModalProps";
 
 export default function ColegioModal({
   open,
@@ -25,7 +17,7 @@ export default function ColegioModal({
   id,
   setOpen,
   triggerRefresh,
-}: ColegioModalProps) {
+}: EntityModalProps) {
   const { data: colegio } = useService(async () => {
     if (id) {
       return await getEntityById<Colegio>(API_COLEGIO_PATH, id);
@@ -72,8 +64,12 @@ export default function ColegioModal({
       <Input label="Nombre" name="nombre" />
       <Input label="Dane" name="dane" />
       <Select name="municipioId" label="Municipio">
-        {municipios?.map((municipio) => {
-          return <option value={municipio.id}>{municipio.nombre}</option>;
+        {municipios?.map((municipio, i) => {
+          return (
+            <option value={municipio.id} key={i}>
+              {municipio.nombre}
+            </option>
+          );
         })}
       </Select>
     </FormModal>

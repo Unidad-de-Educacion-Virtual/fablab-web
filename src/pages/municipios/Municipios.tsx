@@ -27,9 +27,7 @@ export default function Municipios() {
       apiPath={API_MUNICIPIO_PATH}
       columns={columns}
       title="Municipios"
-      entityModal={
-        <MunicipioModal open={false} mode={"edit"} setOpen={() => {}} />
-      }
+      EntityModal={MunicipioModal}
     />
   );
 }

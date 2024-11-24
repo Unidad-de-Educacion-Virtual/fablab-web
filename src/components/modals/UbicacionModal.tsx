@@ -6,15 +6,7 @@ import FormModal from "./FormModal";
 import { useService } from "../../hooks/useService";
 import { getEntityById } from "../../services/BackendService";
 import { useEffect } from "react";
-
-interface UbicacionModalProps {
-  open: boolean;
-  mode: "edit" | "create";
-  enableDelete?: boolean;
-  id?: number;
-  setOpen: (open: boolean) => void;
-  triggerRefresh?: () => void;
-}
+import EntityModalProps from "./types/EntityModalProps";
 
 export default function UbicacionModal({
   open,
@@ -23,7 +15,7 @@ export default function UbicacionModal({
   id,
   setOpen,
   triggerRefresh,
-}: UbicacionModalProps) {
+}: EntityModalProps) {
   const { data: ubicacion } = useService(async () => {
     if (id) {
       return await getEntityById<Ubicacion>(API_UBICACION_PATH, id);

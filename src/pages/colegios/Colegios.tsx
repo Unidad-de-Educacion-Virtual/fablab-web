@@ -33,9 +33,7 @@ export default function Colegios() {
       apiPath={API_COLEGIO_PATH}
       columns={columns}
       title="Colegios"
-      entityModal={
-        <ColegioModal open={false} mode={"edit"} setOpen={() => {}} />
-      }
+      EntityModal={ColegioModal}
     />
   );
 }

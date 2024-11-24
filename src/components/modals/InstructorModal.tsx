@@ -7,15 +7,7 @@ import FormModal from "./FormModal";
 import { getEntityById } from "../../services/BackendService";
 import { useService } from "../../hooks/useService";
 import { useEffect } from "react";
-
-interface InstructorModalProps {
-  open: boolean;
-  mode: "edit" | "create";
-  enableDelete?: boolean;
-  id?: number;
-  setOpen: (open: boolean) => void;
-  triggerRefresh?: () => void;
-}
+import EntityModalProps from "./types/EntityModalProps";
 
 export default function InstructorModal({
   open,
@@ -24,7 +16,7 @@ export default function InstructorModal({
   id,
   setOpen,
   triggerRefresh,
-}: InstructorModalProps) {
+}: EntityModalProps) {
   const { data: instructor } = useService(async () => {
     if (id) {
       return await getEntityById<Instructor>(API_INSTRUCTOR_PATH, id);

@@ -115,7 +115,7 @@ export default function FormModal<T extends FieldValues, U>({
             onSubmit={formMethods.handleSubmit(onSubmit)}
           >
             {children}
-            <div className="flex gap-4">
+            <div className="flex gap-4 justify-end">
               {enableDelete && (
                 <Button
                   text="Borrar"

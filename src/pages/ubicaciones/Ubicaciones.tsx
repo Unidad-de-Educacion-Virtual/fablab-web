@@ -22,9 +22,7 @@ export default function Ubicaciones() {
       apiPath={API_UBICACION_PATH}
       columns={columns}
       title="Ubicaciones"
-      entityModal={
-        <UbicacionModal open={false} mode={"edit"} setOpen={() => {}} />
-      }
+      EntityModal={UbicacionModal}
     />
   );
 }

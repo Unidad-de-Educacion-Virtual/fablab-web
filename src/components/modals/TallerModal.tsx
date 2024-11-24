@@ -1,17 +1,12 @@
 import Input from "../../components/Input";
 import { useForm } from "react-hook-form";
 import { API_TALLER_PATH } from "../../config";
-import { TallerForm } from "../../types/Taller";
+import { Taller, TallerForm } from "../../types/Taller";
 import FormModal from "./FormModal";
-
-interface TallerModalProps {
-  open: boolean;
-  mode: "edit" | "create";
-  id?: number;
-  enableDelete?: boolean;
-  setOpen: (open: boolean) => void;
-  triggerRefresh?: () => void;
-}
+import EntityModalProps from "./types/EntityModalProps";
+import { getEntityById } from "../../services/BackendService";
+import { useService } from "../../hooks/useService";
+import { useEffect } from "react";
 
 export default function TallerModal({
   open,
@@ -20,8 +15,22 @@ export default function TallerModal({
   setOpen,
   triggerRefresh,
   id,
-}: TallerModalProps) {
+}: EntityModalProps) {
+  const { data: taller } = useService(async () => {
+    if (id) {
+      return await getEntityById<Taller>(API_TALLER_PATH, id);
+    }
+  }, [API_TALLER_PATH, id]);
   const formMethods = useForm<TallerForm>();
+
+  useEffect(() => {
+    if (taller) {
+      formMethods.reset({
+        nombre: taller.nombre,
+        descripcion: taller.descripcion,
+      });
+    }
+  }, [taller]);
 
   return (
     <FormModal

@@ -27,9 +27,7 @@ export default function Instructores() {
       apiPath={API_INSTRUCTOR_PATH}
       columns={columns}
       title="Instructores"
-      entityModal={
-        <InstructorModal open={false} mode={"edit"} setOpen={() => {}} />
-      }
+      EntityModal={InstructorModal}
     />
   );
 }
