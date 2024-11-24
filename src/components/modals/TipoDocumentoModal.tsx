@@ -1,8 +1,11 @@
 import { useForm } from "react-hook-form";
-import FormModal from "./FormModal";
 import Input from "../../components/Input";
 import { API_TIPO_DOCUMENTO_PATH } from "../../config";
-import { TipoDocumentoForm } from "../../types/TipoDocumento";
+import { TipoDocumento, TipoDocumentoForm } from "../../types/TipoDocumento";
+import { getEntityById } from "../../services/BackendService";
+import { useService } from "../../hooks/useService";
+import { useEffect } from "react";
+import FormModal from "./FormModal";
 
 interface TipoDocumentoModalProps {
   open: boolean;
@@ -21,12 +24,25 @@ export default function TipoDocumentoModal({
   setOpen,
   triggerRefresh,
 }: TipoDocumentoModalProps) {
-  const { register, handleSubmit, reset } = useForm<TipoDocumentoForm>();
+  const { data: tipoDocumento } = useService(async () => {
+    if (id) {
+      return await getEntityById<TipoDocumento>(API_TIPO_DOCUMENTO_PATH, id);
+    }
+  }, [API_TIPO_DOCUMENTO_PATH, id]);
+
+  const formMethods = useForm<TipoDocumentoForm>();
+
+  useEffect(() => {
+    if (tipoDocumento) {
+      formMethods.reset({
+        descripcion: tipoDocumento.descripcion,
+      });
+    }
+  }, [tipoDocumento]);
 
   return (
     <FormModal
-      handleSubmit={handleSubmit}
-      reset={reset}
+      formMethods={formMethods}
       open={open}
       setOpen={setOpen}
       triggerRefresh={triggerRefresh}
@@ -45,12 +61,7 @@ export default function TipoDocumentoModal({
           : ""
       }
     >
-      <Input
-        type="textarea"
-        label="Descripcion"
-        name="descripcion"
-        registerData={register("descripcion")}
-      />
+      <Input type="textarea" label="Descripcion" name="descripcion" />
     </FormModal>
   );
 }

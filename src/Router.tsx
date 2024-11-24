@@ -9,6 +9,8 @@ import TallerDetails from "./pages/taller-details/TallerDetails";
 import Instructores from "./pages/instructores/Instructores";
 import Ubicaciones from "./pages/ubicaciones/Ubicaciones";
 import TiposDocumento from "./pages/tipos-documento/TiposDocumento";
+import Municipios from "./pages/municipios/Municipios";
+import Colegios from "./pages/colegios/Colegios";
 
 export default function Router() {
   const router = createBrowserRouter(
@@ -19,6 +21,8 @@ export default function Router() {
         <Route path="instructores" element={<Instructores />}></Route>
         <Route path="ubicaciones" element={<Ubicaciones />}></Route>
         <Route path="tipos-documento" element={<TiposDocumento />}></Route>
+        <Route path="municipios" element={<Municipios />}></Route>
+        <Route path="colegios" element={<Colegios />}></Route>
       </Route>
     )
   );

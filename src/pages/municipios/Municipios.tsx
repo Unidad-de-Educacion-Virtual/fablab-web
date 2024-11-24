@@ -1,9 +1,9 @@
-import InstructorModal from "../../components/modals/InstructorModal";
-import { API_INSTRUCTOR_PATH } from "../../config";
 import { GridColDef } from "@mui/x-data-grid";
+import { API_MUNICIPIO_PATH } from "../../config";
 import BasicCrudLayout from "../../layouts/BasicCrudLayout";
+import MunicipioModal from "../../components/modals/MunicipioModal";
 
-export default function Instructores() {
+export default function Municipios() {
   const columns: GridColDef[] = [
     {
       field: "id",
@@ -16,19 +16,19 @@ export default function Instructores() {
       flex: 2,
     },
     {
-      field: "documento",
-      headerName: "Documento",
+      field: "dane",
+      headerName: "Dane",
       flex: 2,
     },
   ];
 
   return (
     <BasicCrudLayout
-      apiPath={API_INSTRUCTOR_PATH}
+      apiPath={API_MUNICIPIO_PATH}
       columns={columns}
-      title="Instructores"
+      title="Municipios"
       entityModal={
-        <InstructorModal open={false} mode={"edit"} setOpen={() => {}} />
+        <MunicipioModal open={false} mode={"edit"} setOpen={() => {}} />
       }
     />
   );

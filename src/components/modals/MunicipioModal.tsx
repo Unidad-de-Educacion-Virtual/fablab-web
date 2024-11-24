@@ -1,13 +1,13 @@
 import { useForm } from "react-hook-form";
-import Input from "../../components/Input";
-import { API_UBICACION_PATH } from "../../config";
-import { Ubicacion, UbicacionForm } from "../../types/Ubicacion";
 import FormModal from "./FormModal";
+import Input from "../../components/Input";
+import { API_MUNICIPIO_PATH } from "../../config";
+import { Municipio, MunicipioForm } from "../../types/Municipio";
 import { useService } from "../../hooks/useService";
 import { getEntityById } from "../../services/BackendService";
 import { useEffect } from "react";
 
-interface UbicacionModalProps {
+interface MunicipioModalProps {
   open: boolean;
   mode: "edit" | "create";
   enableDelete?: boolean;
@@ -16,29 +16,30 @@ interface UbicacionModalProps {
   triggerRefresh?: () => void;
 }
 
-export default function UbicacionModal({
+export default function MunicipioModal({
   open,
   mode,
   enableDelete,
   id,
   setOpen,
   triggerRefresh,
-}: UbicacionModalProps) {
-  const { data: ubicacion } = useService(async () => {
+}: MunicipioModalProps) {
+  const { data: municipio } = useService(async () => {
     if (id) {
-      return await getEntityById<Ubicacion>(API_UBICACION_PATH, id);
+      return await getEntityById<Municipio>(API_MUNICIPIO_PATH, id);
     }
-  }, [API_UBICACION_PATH, id]);
+  }, [API_MUNICIPIO_PATH, id]);
 
-  const formMethods = useForm<UbicacionForm>();
+  const formMethods = useForm<MunicipioForm>();
 
   useEffect(() => {
-    if (ubicacion) {
+    if (municipio) {
       formMethods.reset({
-        nombre: ubicacion.nombre,
+        nombre: municipio.nombre,
+        dane: municipio.dane,
       });
     }
-  }, [ubicacion]);
+  }, [municipio]);
 
   return (
     <FormModal
@@ -48,20 +49,21 @@ export default function UbicacionModal({
       triggerRefresh={triggerRefresh}
       mode={mode}
       entityId={id}
-      baseApiPath={API_UBICACION_PATH}
-      createSucessMsg="Ubicación creada con éxito"
-      editSucessMsg="Ubicación editada con éxito"
-      deleteSucessMsg="Ubicación eliminada con éxito"
+      baseApiPath={API_MUNICIPIO_PATH}
+      createSucessMsg="Municipio creado con éxito"
+      editSucessMsg="Municipio editado con éxito"
+      deleteSucessMsg="Municipio eliminado con éxito"
       enableDelete={enableDelete}
       title={
         mode === "edit"
-          ? "Editar Ubicación"
+          ? "Editar Municipio"
           : mode === "create"
-          ? "Crear Ubicación"
+          ? "Crear Municipio"
           : ""
       }
     >
       <Input label="Nombre" name="nombre" />
+      <Input label="Dane" name="dane" />
     </FormModal>
   );
 }

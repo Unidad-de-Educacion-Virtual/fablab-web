@@ -4,18 +4,16 @@ import CustomModal from "./CustomModal";
 import {
   SubmitHandler,
   FieldValues,
-  UseFormReset,
-  UseFormHandleSubmit,
+  UseFormReturn,
+  FormProvider,
 } from "react-hook-form";
 
 import {
   createEntity,
   deleteEntity,
-  getEntityById,
   updateEntity,
 } from "../../services/BackendService";
 import { ReactNode, useEffect } from "react";
-import { useService } from "../../hooks/useService";
 
 interface FormModalProps<T extends FieldValues> {
   open: boolean;
@@ -27,11 +25,10 @@ interface FormModalProps<T extends FieldValues> {
   deleteSucessMsg?: string;
   children: ReactNode;
   setOpen: (open: boolean) => void;
-  handleSubmit: UseFormHandleSubmit<T>;
-  reset: UseFormReset<T>;
   entityId?: number;
   enableDelete?: boolean;
   triggerRefresh?: () => void;
+  formMethods: UseFormReturn<T>;
 }
 
 export default function FormModal<T extends FieldValues, U>({
@@ -46,24 +43,14 @@ export default function FormModal<T extends FieldValues, U>({
   createSucessMsg,
   deleteSucessMsg,
   title,
-  handleSubmit,
-  reset,
   enableDelete,
+  formMethods,
 }: FormModalProps<T>) {
-  const { data: entity } = useService(async () => {
-    if (!entityId) {
-      return;
-    }
-
-    return await getEntityById<U>(baseApiPath, entityId);
-  }, [baseApiPath, entityId]);
-
   useEffect(() => {
     if (entityId) {
-      console.log(entity);
-      reset(entity as T);
+      formMethods.reset();
     }
-  }, [entity]);
+  }, [entityId]);
 
   async function handleEvent(
     operation: "edit" | "create" | "delete",
@@ -98,18 +85,21 @@ export default function FormModal<T extends FieldValues, U>({
         }
 
         setOpen(false);
-        reset();
+        formMethods.reset();
 
         if (triggerRefresh) {
           triggerRefresh();
         }
       }
-    } catch (error) {
-      toast.error(`${error}`);
+    } catch (error: any) {
+      if (error.message) {
+        toast.error(`${error}`);
+      }
     }
   }
 
   const onSubmit: SubmitHandler<T> = async (data) => {
+    console.log(data);
     handleEvent(mode, data);
   };
 
@@ -119,26 +109,29 @@ export default function FormModal<T extends FieldValues, U>({
       <CustomModal open={open} setOpen={setOpen}>
         <h2 className="text-xl font-bold mb-6">{title}</h2>
 
-        <form className="grid gap-5" onSubmit={handleSubmit(onSubmit)}>
-          {children}
-          <div className="flex justify-end gap-4">
-            {enableDelete ? (
+        <FormProvider {...formMethods}>
+          <form
+            className="grid gap-5"
+            onSubmit={formMethods.handleSubmit(onSubmit)}
+          >
+            {children}
+            <div className="flex gap-4">
+              {enableDelete && (
+                <Button
+                  text="Borrar"
+                  icon="material-symbols:delete-outline-rounded"
+                  variant="light"
+                  onClick={() => handleEvent("delete")}
+                />
+              )}
               <Button
-                text="Borrar"
-                icon="material-symbols:delete-outline-rounded"
-                variant="light"
-                onClick={() => handleEvent("delete")}
+                type="submit"
+                text="Guardar"
+                icon="material-symbols:save-outline-rounded"
               />
-            ) : (
-              ""
-            )}
-            <Button
-              type="submit"
-              text="Guardar"
-              icon="material-symbols:save-outline-rounded"
-            />
-          </div>
-        </form>
+            </div>
+          </form>
+        </FormProvider>
       </CustomModal>
     </>
   );

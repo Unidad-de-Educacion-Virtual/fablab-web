@@ -1,8 +1,8 @@
 import Input from "../../components/Input";
 import { useForm } from "react-hook-form";
-import FormModal from "./FormModal";
 import { API_TALLER_PATH } from "../../config";
 import { TallerForm } from "../../types/Taller";
+import FormModal from "./FormModal";
 
 interface TallerModalProps {
   open: boolean;
@@ -21,12 +21,11 @@ export default function TallerModal({
   triggerRefresh,
   id,
 }: TallerModalProps) {
-  const { register, handleSubmit, reset } = useForm<TallerForm>();
+  const formMethods = useForm<TallerForm>();
 
   return (
     <FormModal
-      handleSubmit={handleSubmit}
-      reset={reset}
+      formMethods={formMethods}
       open={open}
       setOpen={setOpen}
       triggerRefresh={triggerRefresh}
@@ -45,13 +44,8 @@ export default function TallerModal({
           : ""
       }
     >
-      <Input label="Nombre" name="nombre" registerData={register("nombre")} />
-      <Input
-        name="descripcion"
-        label="Descripción"
-        type="textarea"
-        registerData={register("descripcion")}
-      />
+      <Input label="Nombre" name="nombre" />
+      <Input name="descripcion" label="Descripción" type="textarea" />
     </FormModal>
   );
 }

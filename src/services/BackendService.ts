@@ -5,7 +5,7 @@ export async function getEntity<T>(base: string, queryParams = "") {
   const data = await res.json();
 
   if (data.error) {
-    throw new Error(data.error.message);
+    throw new Error(data.message);
   }
 
   if (!res.ok) {
@@ -20,7 +20,7 @@ export async function getEntityById<T>(base: string, id: number) {
   const data = await res.json();
 
   if (data.error) {
-    throw new Error(data.error.message);
+    throw new Error(data.message);
   }
 
   if (!res.ok) {
@@ -39,7 +39,7 @@ export async function createEntity<T, U>(base: string, body: T) {
   const data = await res.json();
 
   if (data.error) {
-    throw new Error(data.error.message);
+    throw new Error(data.message);
   }
 
   if (!res.ok) {
@@ -58,7 +58,7 @@ export async function updateEntity<T, U>(base: string, id: number, body: T) {
   const data = await res.json();
 
   if (data.error) {
-    throw new Error(data.error.message);
+    throw new Error(data.message);
   }
 
   if (!res.ok) {
@@ -76,7 +76,7 @@ export async function deleteEntity<T>(base: string, id: number) {
   const data = await res.json();
 
   if (data.error) {
-    throw new Error(data.error.message);
+    throw new Error(data.message);
   }
 
   if (!res.ok) {
