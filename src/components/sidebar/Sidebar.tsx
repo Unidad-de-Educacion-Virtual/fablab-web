@@ -14,7 +14,7 @@ export default function Sidebar() {
       <div className="inline-block hover:cursor-pointer" onClick={handleClick}>
         <Icon icon="material-symbols:menu-rounded" width="24" height="24" />
       </div>
-      <ul className="flex flex-col gap-4">
+      <ul className="flex flex-col gap-2">
         <Item
           icon="material-symbols:home-outline-rounded"
           open={open}
@@ -26,56 +26,56 @@ export default function Sidebar() {
           icon="material-symbols:home-repair-service-outline-rounded"
           open={open}
           text="Talleres"
-          url="talleres"
+          url="/talleres"
         ></Item>
 
         <Item
           icon="ph:chalkboard-teacher"
           open={open}
           text="Instructores"
-          url="instructores"
+          url="/instructores"
         ></Item>
 
         <Item
           icon="f7:building-2"
           open={open}
           text="Ubicaciones"
-          url="ubicaciones"
+          url="/ubicaciones"
         ></Item>
 
         <Item
           icon="material-symbols:id-card-outline-rounded"
           open={open}
           text="Tipos de Documento"
-          url="tipos-documento"
+          url="/tipos-documento"
         ></Item>
 
         <Item
           icon="material-symbols:location-on-outline-rounded"
           open={open}
           text="Municipios"
-          url="municipios"
+          url="/municipios"
         ></Item>
 
         <Item
           icon="material-symbols:school-outline-rounded"
           open={open}
           text="Colegios"
-          url="colegios"
+          url="/colegios"
         ></Item>
 
         <Item
           icon="material-symbols:person-outline-rounded"
           open={open}
           text="Participantes"
-          url="participantes"
+          url="/participantes"
         ></Item>
 
         <Item
           icon="material-symbols:news-outline-rounded"
           open={open}
           text="Inscripciones"
-          url="inscripciones"
+          url="/inscripciones"
         ></Item>
       </ul>
     </nav>

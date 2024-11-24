@@ -5,7 +5,7 @@ interface ButtonProps {
   icon?: string;
   type?: "button" | "reset" | "submit";
   className?: string;
-  variant?: "default" | "light" | "no-background";
+  variant?: "default" | "light" | "no-background" | "no-background-inverse";
   onClick?: () => void;
 }
 
@@ -24,7 +24,7 @@ export default function Button({
         variant === "no-background"
           ? " text-red-500  hover:text-red-600 active:text-red-700"
           : ""
-      } ${
+      } ${variant === "no-background-inverse" ? " text-white" : ""} ${
         variant === "light"
           ? "px-4 py-3 text-red-500 bg-red-50 hover:text-red-600 hover:bg-red-100 active:text-red-700"
           : ""
