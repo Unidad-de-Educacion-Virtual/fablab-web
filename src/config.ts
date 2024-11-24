@@ -7,3 +7,4 @@ export const API_MUNICIPIO_PATH = "municipio";
 export const API_COLEGIO_PATH = "colegio";
 export const API_PARTICIPANTE_PATH = "participante";
 export const API_PROGRAMACION_PATH = "programacion";
+export const API_SESION_PATH = "sesion";

@@ -1,6 +1,7 @@
 import { useParams } from "react-router-dom";
 import BreadCrumb from "../../components/Breadcrum";
 import ProgramacionSection from "./ProgramacionSection";
+import Sesiones from "./Sesiones";
 
 export default function ProgramacionDetails() {
   const { idProgramacion: idStr } = useParams();
@@ -11,6 +12,7 @@ export default function ProgramacionDetails() {
       <BreadCrumb />
       <div className="grid gap-8">
         <ProgramacionSection id={id} />
+        <Sesiones programacionId={id} />
       </div>
     </>
   );
