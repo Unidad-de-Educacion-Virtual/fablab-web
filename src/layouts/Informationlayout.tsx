@@ -1,4 +1,5 @@
 import { ReactElement, ReactNode, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import ContentLayout from "./ContentLayout";
 import Button from "../components/Button";
 import EntityModalProps from "../components/modals/types/EntityModalProps";
@@ -16,6 +17,7 @@ export default function InformationLayout({
   EntityModal,
   refresh,
 }: InformationLayoutProps) {
+  const navigate = useNavigate();
   const [editModal, setEditModal] = useState(false);
 
   return (
@@ -36,6 +38,7 @@ export default function InformationLayout({
         enableDelete={true}
         setOpen={setEditModal}
         triggerRefresh={refresh}
+        onDelete={() => setTimeout(() => navigate(-1), 1500)}
       />
 
       <div className="w-full">{children}</div>

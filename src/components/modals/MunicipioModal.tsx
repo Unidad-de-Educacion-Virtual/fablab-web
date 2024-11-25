@@ -15,6 +15,9 @@ export default function MunicipioModal({
   id,
   setOpen,
   triggerRefresh,
+  onCreate,
+  onDelete,
+  onEdit,
 }: EntityModalProps) {
   const { data: municipio } = useService(async () => {
     if (id) {
@@ -53,6 +56,9 @@ export default function MunicipioModal({
           ? "Crear Municipio"
           : ""
       }
+      onDelete={onDelete}
+      onEdit={onEdit}
+      onCreate={onCreate}
     >
       <Input label="Nombre" name="nombre" />
       <Input label="Dane" name="dane" />

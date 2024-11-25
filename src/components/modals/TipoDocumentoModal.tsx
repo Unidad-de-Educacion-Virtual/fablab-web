@@ -15,6 +15,9 @@ export default function TipoDocumentoModal({
   id,
   setOpen,
   triggerRefresh,
+  onCreate,
+  onDelete,
+  onEdit,
 }: EntityModalProps) {
   const { data: tipoDocumento } = useService(async () => {
     if (id) {
@@ -52,6 +55,9 @@ export default function TipoDocumentoModal({
           ? "Crear Tipo de Documento"
           : ""
       }
+      onDelete={onDelete}
+      onEdit={onEdit}
+      onCreate={onCreate}
     >
       <Input type="textarea" label="Descripcion" name="descripcion" />
     </FormModal>

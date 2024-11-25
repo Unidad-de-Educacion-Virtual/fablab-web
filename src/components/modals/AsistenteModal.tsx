@@ -21,6 +21,9 @@ export default function AsistenteModal({
   parentId,
   setOpen,
   triggerRefresh,
+  onCreate,
+  onDelete,
+  onEdit,
 }: EntityModalProps) {
   const { data: asistente } = useService(async () => {
     if (id) {
@@ -67,6 +70,9 @@ export default function AsistenteModal({
           ? "Agregar Asistente"
           : ""
       }
+      onDelete={onDelete}
+      onEdit={onEdit}
+      onCreate={onCreate}
     >
       <Select name="participanteId" label="Participante">
         {participantes?.map((participante, i) => {

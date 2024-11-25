@@ -15,6 +15,9 @@ export default function UbicacionModal({
   id,
   setOpen,
   triggerRefresh,
+  onCreate,
+  onDelete,
+  onEdit,
 }: EntityModalProps) {
   const { data: ubicacion } = useService(async () => {
     if (id) {
@@ -52,6 +55,9 @@ export default function UbicacionModal({
           ? "Crear Ubicación"
           : ""
       }
+      onDelete={onDelete}
+      onEdit={onEdit}
+      onCreate={onCreate}
     >
       <Input label="Nombre" name="nombre" />
     </FormModal>

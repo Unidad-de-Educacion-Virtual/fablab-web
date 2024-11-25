@@ -16,6 +16,9 @@ export default function InstructorModal({
   id,
   setOpen,
   triggerRefresh,
+  onCreate,
+  onDelete,
+  onEdit,
 }: EntityModalProps) {
   const { data: instructor } = useService(async () => {
     if (id) {
@@ -54,6 +57,9 @@ export default function InstructorModal({
           ? "Crear Instructor"
           : ""
       }
+      onDelete={onDelete}
+      onEdit={onEdit}
+      onCreate={onCreate}
     >
       <Input label="Nombre" name="nombre" />
       <Input label="Documento" name="documento" />

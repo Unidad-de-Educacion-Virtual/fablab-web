@@ -25,6 +25,9 @@ export default function ProgramacionModal({
   parentId,
   setOpen,
   triggerRefresh,
+  onCreate,
+  onDelete,
+  onEdit,
 }: EntityModalProps) {
   const { data: programacion } = useService(async () => {
     if (id) {
@@ -87,6 +90,9 @@ export default function ProgramacionModal({
           ? "Crear Programación"
           : ""
       }
+      onDelete={onDelete}
+      onEdit={onEdit}
+      onCreate={onCreate}
     >
       <div className="grid lg:grid-cols-3 gap-5">
         <Select name="instructorId" label="Instructor">

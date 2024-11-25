@@ -28,6 +28,9 @@ interface FormModalProps<T extends FieldValues> {
   entityId?: number;
   enableDelete?: boolean;
   triggerRefresh?: () => void;
+  onDelete?: () => void;
+  onEdit?: () => void;
+  onCreate?: () => void;
   formMethods: UseFormReturn<T>;
 }
 
@@ -45,6 +48,9 @@ export default function FormModal<T extends FieldValues, U>({
   title,
   enableDelete,
   formMethods,
+  onDelete = () => {},
+  onEdit = () => {},
+  onCreate = () => {},
 }: FormModalProps<T>) {
   useEffect(() => {
     if (entityId) {
@@ -74,14 +80,17 @@ export default function FormModal<T extends FieldValues, U>({
       if (entity) {
         if (operation == "create") {
           toast.success(createSucessMsg);
+          onCreate();
         }
 
         if (operation == "edit") {
           toast.success(editSucessMsg);
+          onEdit();
         }
 
         if (operation == "delete") {
           toast.success(deleteSucessMsg);
+          onDelete();
         }
 
         setOpen(false);

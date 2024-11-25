@@ -16,6 +16,9 @@ export default function EvidenciaModal({
   parentId,
   setOpen,
   triggerRefresh,
+  onCreate,
+  onDelete,
+  onEdit,
 }: EntityModalProps) {
   const { data: evidencia } = useService(async () => {
     if (id) {
@@ -59,6 +62,9 @@ export default function EvidenciaModal({
           ? "Agregar Evidencia"
           : ""
       }
+      onDelete={onDelete}
+      onEdit={onEdit}
+      onCreate={onCreate}
     >
       <Input label="Archivo" name="url" />
       <Input label="Observación" name="observacion" type="textarea" />

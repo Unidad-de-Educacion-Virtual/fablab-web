@@ -22,6 +22,9 @@ export default function ParticipanteModal({
   id,
   setOpen,
   triggerRefresh,
+  onCreate,
+  onDelete,
+  onEdit,
 }: EntityModalProps) {
   const { data: participante } = useService(async () => {
     if (id) {
@@ -69,6 +72,9 @@ export default function ParticipanteModal({
           ? "Crear Participante"
           : ""
       }
+      onDelete={onDelete}
+      onEdit={onEdit}
+      onCreate={onCreate}
     >
       <Input label="Nombre" name="nombre" />
       <Select label="Tipo de Documento" name="tipoDocumentoId">

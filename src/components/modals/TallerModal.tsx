@@ -15,6 +15,9 @@ export default function TallerModal({
   setOpen,
   triggerRefresh,
   id,
+  onDelete,
+  onCreate,
+  onEdit,
 }: EntityModalProps) {
   const { data: taller } = useService(async () => {
     if (id) {
@@ -45,6 +48,9 @@ export default function TallerModal({
       editSucessMsg="Taller editado con éxito"
       deleteSucessMsg="Taller eliminado con éxito"
       enableDelete={enableDelete}
+      onDelete={onDelete}
+      onEdit={onEdit}
+      onCreate={onCreate}
       title={
         mode === "edit"
           ? "Editar Taller"

@@ -23,6 +23,9 @@ export default function SesionModal({
   parentId,
   setOpen,
   triggerRefresh,
+  onCreate,
+  onDelete,
+  onEdit,
 }: EntityModalProps) {
   const { data: sesion } = useService(async () => {
     if (id) {
@@ -76,6 +79,9 @@ export default function SesionModal({
           ? "Crear Sesión"
           : ""
       }
+      onDelete={onDelete}
+      onEdit={onEdit}
+      onCreate={onCreate}
     >
       <Input label="Fecha" name="fecha" />
       <Input label="Hora" name="hora" />

@@ -6,4 +6,7 @@ export default interface EntityModalProps {
   parentId?: number;
   setOpen: (open: boolean) => void;
   triggerRefresh?: () => void;
+  onDelete?: () => void;
+  onEdit?: () => void;
+  onCreate?: () => void;
 }

@@ -23,6 +23,9 @@ export default function InscripcionModal({
   parentId,
   setOpen,
   triggerRefresh,
+  onCreate,
+  onDelete,
+  onEdit,
 }: EntityModalProps) {
   const { data: inscripcion } = useService(async () => {
     if (id) {
@@ -74,6 +77,9 @@ export default function InscripcionModal({
           ? "Crear Inscripción"
           : ""
       }
+      onDelete={onDelete}
+      onEdit={onEdit}
+      onCreate={onCreate}
     >
       <Input label="Fecha" name="fecha" />
       {!parentId && (
