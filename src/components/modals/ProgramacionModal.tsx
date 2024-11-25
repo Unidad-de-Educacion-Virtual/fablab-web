@@ -58,7 +58,7 @@ export default function ProgramacionModal({
         cantidad: programacion.cantidad,
         grado: programacion.grado,
         grupo: programacion.grupo,
-        observaciones: programacion.observaciones,
+        observacion: programacion.observacion,
         colegioId: programacion.colegio.id,
         instructorId: programacion.instructor.id,
         ubicacionId: programacion.ubicacion.id,
@@ -128,7 +128,7 @@ export default function ProgramacionModal({
         <Input label="Grado" name="grado" />
         <Input label="Grupo" name="grupo" />
       </div>
-      <Input label="Observaciones" name="observaciones" type="textarea" />
+      <Input label="Observaciones" name="observacion" type="textarea" />
     </FormModal>
   );
 }

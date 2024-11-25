@@ -35,7 +35,7 @@ export default function ProgramacionSection({ id }: ProgramacionSectionProps) {
       <PropertyValue name="Grado" value={programacion?.grado} />
       <PropertyValue name="Grupo" value={programacion?.grupo} />
 
-      <PropertyValue name="Observaciones" value={programacion?.observaciones} />
+      <PropertyValue name="Observaciones" value={programacion?.observacion} />
     </InformationLayout>
   );
 }
