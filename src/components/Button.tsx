@@ -20,7 +20,7 @@ export default function Button({
     <button
       type={type}
       onClick={onClick}
-      className={`flex w-fit h-fit items-center rounded-xl gap-2 transition font-bold  active:scale-95 ${
+      className={`flex w-fit h-fit items-center text-nowrap rounded-xl gap-2 transition font-bold  active:scale-95 ${
         variant === "no-background"
           ? " text-red-500  hover:text-red-600 active:text-red-700"
           : ""

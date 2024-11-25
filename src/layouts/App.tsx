@@ -4,9 +4,9 @@ import Sidebar from "../components/sidebar/Sidebar";
 export default function App() {
   return (
     <>
-      <main className="grid grid-cols-[auto_1fr]">
+      <main className="grid lg:grid-cols-[auto_1fr]">
         <Sidebar />
-        <div className="p-6">
+        <div className="box-border p-6">
           <Outlet />
         </div>
       </main>

@@ -88,7 +88,7 @@ export default function ProgramacionModal({
           : ""
       }
     >
-      <div className="grid grid-cols-3 gap-5">
+      <div className="grid lg:grid-cols-3 gap-5">
         <Select name="instructorId" label="Instructor">
           {instructores?.map((instructor, i) => {
             return (
