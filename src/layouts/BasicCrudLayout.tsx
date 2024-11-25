@@ -1,12 +1,13 @@
 import { ReactElement, useMemo, useState } from "react";
 import { GridColDef } from "@mui/x-data-grid";
-import { getEntity } from "../services/BackendService";
+import { deleteEntity, getEntity } from "../services/BackendService";
 import DataTable from "../components/DataTable";
 import ContentLayout from "./ContentLayout";
 import { useService } from "../hooks/useService";
 import Button from "../components/Button";
 import { Link } from "react-router-dom";
 import EntityModalProps from "../components/modals/types/EntityModalProps";
+import { toast, Toaster } from "sonner";
 
 interface BasicCrudLayoutProps {
   apiPath: string;
@@ -60,21 +61,18 @@ export default function BasicCrudLayout<T>({
             <Link to={`${viewBasePath}${params.row.id}`}>
               <Button
                 text="Ver"
-                onClick={() => handleEdit(params.row.id)}
                 icon="ic:outline-remove-red-eye"
                 variant="no-background"
               />
             </Link>
           )}
           {action === "delete" && (
-            <Link to={`${params.row.id}`}>
-              <Button
-                text="Borrar"
-                onClick={() => handleEdit(params.row.id)}
-                icon="ic:delete-outline-rounded"
-                variant="no-background"
-              />
-            </Link>
+            <Button
+              text="Borrar"
+              onClick={() => handleDelete(params.row.id)}
+              icon="material-symbols:delete-outline-rounded"
+              variant="no-background"
+            />
           )}
         </div>
       ),
@@ -93,6 +91,18 @@ export default function BasicCrudLayout<T>({
     });
   }, [entities]);
 
+  async function handleDelete(id: number) {
+    try {
+      await deleteEntity<T>(apiPath, id);
+      toast.success("Eliminado con éxito");
+      refresh();
+    } catch (error: any) {
+      if (error.message) {
+        toast.error(`${error}`);
+      }
+    }
+  }
+
   function handleEdit(id: number) {
     setEditItemId(id);
     setEditModal(true);
@@ -109,6 +119,8 @@ export default function BasicCrudLayout<T>({
         />
       }
     >
+      <Toaster position="top-center" richColors />
+
       <EntityModal
         mode="create"
         open={createModal}

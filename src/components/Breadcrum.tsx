@@ -6,20 +6,54 @@ export default function BreadCrumb() {
   const paths = pathname.split("/");
   paths.shift();
 
-  const breadcrumbNameMap = new Map<string, string>([
-    ["talleres", "Taller"],
-    ["programaciones", "Programaciones"],
+  const breadcrumbNameMap = new Map<
+    string,
+    {
+      name: string;
+      target?: string;
+    }
+  >([
+    [
+      "talleres",
+      {
+        name: "Taller",
+        target: "/talleres",
+      },
+    ],
+    [
+      "programaciones",
+      {
+        name: "Programaciones",
+      },
+    ],
+    [
+      "sesiones",
+      {
+        name: "Sesiones",
+      },
+    ],
   ]);
 
   return (
     <Breadcrumbs separator=">">
-      {paths.map((path, i) => (
-        <span className="hover:underline underline-offset-4">
-          <Link to={`/${paths.slice(0, i + 1).join("/")}`}>
-            {breadcrumbNameMap.get(path) || path}
-          </Link>
-        </span>
-      ))}
+      {paths.map((path, i) => {
+        const urlArr = paths.slice(0, i + 1);
+        const pathInfo = breadcrumbNameMap.get(path) || {
+          name: path,
+          target: `/${urlArr.join("/")}`,
+        };
+
+        if (!pathInfo.target) {
+          urlArr.pop();
+          pathInfo.target = `/${urlArr.join("/")}`;
+        }
+
+        return (
+          <span className="hover:underline underline-offset-4">
+            <Link to={pathInfo.target}>{pathInfo.name}</Link>
+          </span>
+        );
+      })}
     </Breadcrumbs>
   );
 }

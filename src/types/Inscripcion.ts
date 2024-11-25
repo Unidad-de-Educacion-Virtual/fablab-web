@@ -12,7 +12,7 @@ export interface Inscripcion {
 }
 
 export interface InscripcionForm {
-  participanteId: string;
-  programacionId: string;
+  participanteId: number;
+  programacionId: number;
   fecha: string;
 }

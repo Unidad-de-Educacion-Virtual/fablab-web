@@ -8,3 +8,6 @@ export const API_COLEGIO_PATH = "colegio";
 export const API_PARTICIPANTE_PATH = "participante";
 export const API_PROGRAMACION_PATH = "programacion";
 export const API_SESION_PATH = "sesion";
+export const API_INSCRIPCION_PATH = "inscripcion";
+export const API_ASISTENTE_PATH = "asistente";
+export const API_EVIDENCIA_PATH = "evidencia";

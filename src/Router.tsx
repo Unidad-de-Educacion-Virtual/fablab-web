@@ -13,6 +13,7 @@ import Municipios from "./pages/municipios/Municipios";
 import Colegios from "./pages/colegios/Colegios";
 import Participantes from "./pages/participantes/Participantes";
 import ProgramacionDetails from "./pages/programacion-details/ProgramacionDetails";
+import SesionDetails from "./pages/sesion-details/SesionDetails";
 
 export default function Router() {
   const router = createBrowserRouter(
@@ -23,6 +24,10 @@ export default function Router() {
         <Route
           path="talleres/:idTaller/programaciones/:idProgramacion"
           element={<ProgramacionDetails />}
+        ></Route>
+        <Route
+          path="talleres/:idTaller/programaciones/:idProgramacion/sesiones/:idSesion"
+          element={<SesionDetails />}
         ></Route>
         <Route path="instructores" element={<Instructores />}></Route>
         <Route path="ubicaciones" element={<Ubicaciones />}></Route>
