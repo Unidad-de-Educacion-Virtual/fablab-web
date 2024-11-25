@@ -1,10 +1,6 @@
 import { useForm } from "react-hook-form";
 import FormModal from "./FormModal";
-import {
-  API_ASISTENTE_PATH,
-  API_PARTICIPANTE_PATH,
-  API_SESION_PATH,
-} from "../../config";
+import { API_ASISTENTE_PATH, API_PARTICIPANTE_PATH } from "../../config";
 import { useService } from "../../hooks/useService";
 import { getEntity, getEntityById } from "../../services/BackendService";
 import Select from "../Select";
@@ -58,7 +54,7 @@ export default function AsistenteModal({
       triggerRefresh={triggerRefresh}
       mode={mode}
       entityId={id}
-      baseApiPath={API_SESION_PATH}
+      baseApiPath={API_ASISTENTE_PATH}
       createSucessMsg="Asistente agregado con éxito"
       editSucessMsg="Asistente editado con éxito"
       deleteSucessMsg="Asistente eliminado con éxito"
