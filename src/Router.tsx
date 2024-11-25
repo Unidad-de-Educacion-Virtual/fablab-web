@@ -14,6 +14,7 @@ import Colegios from "./pages/colegios/Colegios";
 import Participantes from "./pages/participantes/Participantes";
 import ProgramacionDetails from "./pages/programacion-details/ProgramacionDetails";
 import SesionDetails from "./pages/sesion-details/SesionDetails";
+import Inscripciones from "./pages/inscripciones/Inscripciones";
 
 export default function Router() {
   const router = createBrowserRouter(
@@ -35,6 +36,7 @@ export default function Router() {
         <Route path="municipios" element={<Municipios />}></Route>
         <Route path="colegios" element={<Colegios />}></Route>
         <Route path="participantes" element={<Participantes />}></Route>
+        <Route path="inscripciones" element={<Inscripciones />}></Route>
       </Route>
     )
   );

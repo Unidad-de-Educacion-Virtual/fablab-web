@@ -7,7 +7,7 @@ export interface Inscripcion {
   };
   programacion: {
     id: number;
-    nombre: string;
+    valor: string;
   };
 }
 

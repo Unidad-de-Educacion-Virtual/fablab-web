@@ -1,7 +1,11 @@
 import { useForm } from "react-hook-form";
 import FormModal from "./FormModal";
 import Input from "../../components/Input";
-import { API_INSCRIPCION_PATH, API_PARTICIPANTE_PATH } from "../../config";
+import {
+  API_INSCRIPCION_PATH,
+  API_PARTICIPANTE_PATH,
+  API_PROGRAMACION_PATH,
+} from "../../config";
 import { useService } from "../../hooks/useService";
 import { getEntity, getEntityById } from "../../services/BackendService";
 import Select from "../Select";
@@ -9,6 +13,7 @@ import { useEffect } from "react";
 import EntityModalProps from "./types/EntityModalProps";
 import { Inscripcion, InscripcionForm } from "../../types/Inscripcion";
 import { Participante } from "../../types/Participante";
+import { Programacion } from "../../types/Programacion";
 
 export default function InscripcionModal({
   open,
@@ -24,6 +29,10 @@ export default function InscripcionModal({
       return await getEntityById<Inscripcion>(API_INSCRIPCION_PATH, id);
     }
   }, [API_INSCRIPCION_PATH, id]);
+
+  const { data: programaciones } = useService(async () => {
+    return await getEntity<Programacion>(API_PROGRAMACION_PATH);
+  }, [API_PROGRAMACION_PATH]);
 
   const { data: participantes } = useService(async () => {
     return await getEntity<Participante>(API_PARTICIPANTE_PATH);
@@ -67,6 +76,17 @@ export default function InscripcionModal({
       }
     >
       <Input label="Fecha" name="fecha" />
+      {!parentId && (
+        <Select name="programacionId" label="Programación">
+          {programaciones?.map((programacion, i) => {
+            return (
+              <option value={programacion.id} key={i}>
+                {programacion.taller.nombre} - {programacion.fechaInicio}
+              </option>
+            );
+          })}
+        </Select>
+      )}
       <Select name="participanteId" label="Participante">
         {participantes?.map((participante, i) => {
           return (
