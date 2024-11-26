@@ -66,6 +66,7 @@ export default function EvidenciaModal({
       onEdit={onEdit}
       onCreate={onCreate}
     >
+      <Input label="Fecha" name="fecha" type="date" />
       <Input label="Archivo" name="url" />
       <Input label="Observación" name="observacion" type="textarea" />
     </FormModal>

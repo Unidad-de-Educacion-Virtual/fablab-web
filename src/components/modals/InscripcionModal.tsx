@@ -55,7 +55,7 @@ export default function InscripcionModal({
         programacionId: parentId,
       });
     }
-  }, [participantes]);
+  }, [inscripcion]);
 
   return (
     <FormModal
@@ -81,7 +81,7 @@ export default function InscripcionModal({
       onEdit={onEdit}
       onCreate={onCreate}
     >
-      <Input label="Fecha" name="fecha" />
+      <Input label="Fecha" name="fecha" type="date" />
       {!parentId && (
         <Select name="programacionId" label="Programación">
           {programaciones?.map((programacion, i) => {

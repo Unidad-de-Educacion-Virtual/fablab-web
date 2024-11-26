@@ -3,7 +3,7 @@ import { useFormContext } from "react-hook-form";
 interface InputProps {
   name: string;
   label: string;
-  type?: "text" | "textarea";
+  type?: "text" | "textarea" | "date" | "time" | "number";
 }
 
 export default function Input({ label, name, type = "text" }: InputProps) {
@@ -22,7 +22,9 @@ export default function Input({ label, name, type = "text" }: InputProps) {
         ></textarea>
       ) : (
         <input
-          {...register(name)}
+          {...register(name, {
+            valueAsNumber: type === "number",
+          })}
           id={name}
           type={type}
           className={`peer w-full px-5 py-3 rounded-xl border-2 border-neutral-300 outline outline-0 transition-all focus:border-gray-600 ${

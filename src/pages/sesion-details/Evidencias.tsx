@@ -15,6 +15,11 @@ export default function Evidencias({ sesionId }: EvidenciasProps) {
       flex: 1,
     },
     {
+      field: "fecha",
+      headerName: "Fecha",
+      flex: 2,
+    },
+    {
       field: "observacion",
       headerName: "Observación",
       flex: 2,

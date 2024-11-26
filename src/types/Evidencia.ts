@@ -5,10 +5,12 @@ export interface Evidencia {
   };
   url: string;
   observacion: string;
+  fecha: string;
 }
 
 export interface EvidenciaForm {
   sesionId: number;
   url: string;
   observacion: string;
+  fecha: string;
 }

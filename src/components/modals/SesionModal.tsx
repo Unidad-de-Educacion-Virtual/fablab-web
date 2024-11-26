@@ -83,8 +83,8 @@ export default function SesionModal({
       onEdit={onEdit}
       onCreate={onCreate}
     >
-      <Input label="Fecha" name="fecha" />
-      <Input label="Hora" name="hora" />
+      <Input label="Fecha" name="fecha" type="date" />
+      <Input label="Hora" name="hora" type="time" />
       <Select name="instructorId" label="Instructor">
         {instructores?.map((instructor, i) => {
           return (

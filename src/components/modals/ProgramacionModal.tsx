@@ -113,9 +113,9 @@ export default function ProgramacionModal({
             );
           })}
         </Select>
-        <Input label="Fecha de Inicio" name="fechaInicio" />
-        <Input label="Fecha de Fin" name="fechaFin" />
-        <Input label="Cantidad" name="cantidad" />
+        <Input label="Fecha de Inicio" name="fechaInicio" type="date" />
+        <Input label="Fecha de Fin" name="fechaFin" type="date" />
+        <Input label="Cantidad" name="cantidad" type="number" />
         <Select name="colegioId" label="Colegio">
           {colegios?.map((colegio, i) => {
             return (
@@ -125,7 +125,7 @@ export default function ProgramacionModal({
             );
           })}
         </Select>
-        <Input label="Grado" name="grado" />
+        <Input label="Grado" name="grado" type="number" />
         <Input label="Grupo" name="grupo" />
       </div>
       <Input label="Observaciones" name="observacion" type="textarea" />
