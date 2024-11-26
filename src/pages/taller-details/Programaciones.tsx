@@ -27,14 +27,14 @@ export default function Programaciones({ tallerId }: ProgramacionesProps) {
       headerName: "Fecha de Inicio",
       type: "date",
       flex: 2,
-      valueGetter: (value) => new Date(value),
+      valueGetter: (value) => new Date(`${value}T00:00:00`),
     },
     {
       field: "fechaFin",
       headerName: "Fecha de Fin",
       type: "date",
       flex: 2,
-      valueGetter: (value) => new Date(value),
+      valueGetter: (value) => new Date(`${value}T00:00:00`),
     },
     {
       field: "cantidad",

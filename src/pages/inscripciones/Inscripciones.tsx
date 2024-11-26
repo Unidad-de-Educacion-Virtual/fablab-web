@@ -27,7 +27,7 @@ export default function Inscripciones() {
       field: "fecha",
       headerName: "Fecha de Inscripción",
       type: "date",
-      valueGetter: (value) => new Date(value),
+      valueGetter: (value) => new Date(`${value}T00:00:00`),
       flex: 2,
     },
   ];
