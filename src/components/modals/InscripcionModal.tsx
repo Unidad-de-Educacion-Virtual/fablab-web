@@ -1,6 +1,5 @@
 import { useForm } from "react-hook-form";
 import FormModal from "./FormModal";
-import Input from "../../components/Input";
 import {
   API_INSCRIPCION_PATH,
   API_PARTICIPANTE_PATH,
@@ -81,7 +80,6 @@ export default function InscripcionModal({
       onEdit={onEdit}
       onCreate={onCreate}
     >
-      <Input label="Fecha" name="fecha" type="date" />
       {!parentId && (
         <Select name="programacionId" label="Programación">
           {programaciones?.map((programacion, i) => {
