@@ -24,6 +24,8 @@ export default function Inscripciones({ programacionId }: InscripcionesProps) {
     {
       field: "fecha",
       headerName: "Fecha",
+      type: "date",
+      valueGetter: (value) => new Date(value),
       flex: 2,
     },
   ];

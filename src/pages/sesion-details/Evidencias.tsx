@@ -17,6 +17,8 @@ export default function Evidencias({ sesionId }: EvidenciasProps) {
     {
       field: "fecha",
       headerName: "Fecha",
+      type: "date",
+      valueGetter: (value) => new Date(value),
       flex: 2,
     },
     {

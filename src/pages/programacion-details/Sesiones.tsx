@@ -19,6 +19,8 @@ export default function Sesiones({ programacionId }: SesionesProps) {
     {
       field: "fecha",
       headerName: "Fecha",
+      type: "date",
+      valueGetter: (value) => new Date(value),
       flex: 2,
     },
     {
@@ -41,6 +43,7 @@ export default function Sesiones({ programacionId }: SesionesProps) {
     {
       field: "totalAsistentes",
       headerName: "Asistentes",
+      type: "number",
       flex: 1,
     },
   ];
