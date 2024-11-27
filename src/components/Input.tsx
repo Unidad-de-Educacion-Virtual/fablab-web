@@ -4,9 +4,15 @@ interface InputProps {
   name: string;
   label: string;
   type?: "text" | "textarea" | "date" | "time" | "number" | "password";
+  placeholder?: string;
 }
 
-export default function Input({ label, name, type = "text" }: InputProps) {
+export default function Input({
+  label,
+  name,
+  type = "text",
+  placeholder = "",
+}: InputProps) {
   const { register, getFieldState } = useFormContext();
   const { invalid } = getFieldState(name);
 
@@ -19,6 +25,7 @@ export default function Input({ label, name, type = "text" }: InputProps) {
           className={`peer w-full px-5 py-3 rounded-xl border-2 border-neutral-300 outline outline-0 transition-all focus:border-gray-600 ${
             invalid ? "border-red-500" : ""
           }`}
+          placeholder={placeholder}
         ></textarea>
       ) : (
         <input
@@ -30,10 +37,9 @@ export default function Input({ label, name, type = "text" }: InputProps) {
           className={`peer w-full px-5 py-3 rounded-xl border-2 border-neutral-300 outline outline-0 transition-all focus:border-gray-600 ${
             invalid ? "border-red-500" : ""
           }`}
+          placeholder={placeholder}
         ></input>
       )}
-
-      <p>{invalid && "invalid"}</p>
 
       <label
         htmlFor={name}

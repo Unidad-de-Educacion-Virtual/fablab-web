@@ -12,9 +12,13 @@ const Logout = () => {
 
   setTimeout(() => {
     handleLogout();
-  }, 3 * 1000);
+  }, 2 * 1000);
 
-  return <h1>Cerrando Sesión...</h1>;
+  return (
+    <div className="w-full h-full flex items-center justify-center">
+      <p className="font-bold text-2xl animate-pulse">Cerrando Sesión...</p>
+    </div>
+  );
 };
 
 export default Logout;

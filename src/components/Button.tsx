@@ -6,6 +6,7 @@ interface ButtonProps {
   type?: "button" | "reset" | "submit";
   className?: string;
   variant?: "default" | "light" | "no-background" | "no-background-inverse";
+  fullWidth?: boolean;
   onClick?: () => void;
 }
 
@@ -14,13 +15,14 @@ export default function Button({
   icon,
   type = "button",
   variant = "default",
+  fullWidth,
   onClick,
 }: ButtonProps) {
   return (
     <button
       type={type}
       onClick={onClick}
-      className={`flex w-fit h-fit items-center text-nowrap rounded-xl gap-2 transition font-bold  active:scale-95 ${
+      className={`flex w-fit h-fit items-center justify-center text-nowrap rounded-xl gap-2 transition font-bold  active:scale-95 ${
         variant === "no-background"
           ? " text-red-500  hover:text-red-600 active:text-red-700"
           : ""
@@ -32,7 +34,7 @@ export default function Button({
         variant === "default"
           ? "px-4 py-3 bg-red-500 text-white hover:bg-red-600 active:bg-red-700"
           : ""
-      }
+      } ${fullWidth ? "w-full" : ""}
       
 `}
     >
