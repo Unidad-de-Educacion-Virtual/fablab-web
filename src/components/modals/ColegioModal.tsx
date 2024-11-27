@@ -9,6 +9,7 @@ import { Municipio } from "../../types/Municipio";
 import Select from "../Select";
 import { useEffect } from "react";
 import EntityModalProps from "./types/EntityModalProps";
+import { useAuth } from "../../providers/AuthProvider";
 
 export default function ColegioModal({
   open,
@@ -18,14 +19,16 @@ export default function ColegioModal({
   setOpen,
   triggerRefresh,
 }: EntityModalProps) {
+  const { token } = useAuth();
+
   const { data: colegio } = useService(async () => {
     if (id) {
-      return await getEntityById<Colegio>(API_COLEGIO_PATH, id);
+      return await getEntityById<Colegio>(API_COLEGIO_PATH, id, token);
     }
   }, [API_COLEGIO_PATH, id]);
 
   const { data: municipios } = useService(async () => {
-    return await getEntity<Municipio>(API_MUNICIPIO_PATH);
+    return await getEntity<Municipio>(API_MUNICIPIO_PATH, "", token);
   }, [API_MUNICIPIO_PATH]);
 
   const formMethods = useForm<ColegioForm>();

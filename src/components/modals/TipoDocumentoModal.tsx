@@ -7,6 +7,7 @@ import { useService } from "../../hooks/useService";
 import { useEffect } from "react";
 import FormModal from "./FormModal";
 import EntityModalProps from "./types/EntityModalProps";
+import { useAuth } from "../../providers/AuthProvider";
 
 export default function TipoDocumentoModal({
   open,
@@ -19,9 +20,15 @@ export default function TipoDocumentoModal({
   onDelete,
   onEdit,
 }: EntityModalProps) {
+  const { token } = useAuth();
+
   const { data: tipoDocumento } = useService(async () => {
     if (id) {
-      return await getEntityById<TipoDocumento>(API_TIPO_DOCUMENTO_PATH, id);
+      return await getEntityById<TipoDocumento>(
+        API_TIPO_DOCUMENTO_PATH,
+        id,
+        token
+      );
     }
   }, [API_TIPO_DOCUMENTO_PATH, id]);
 

@@ -7,6 +7,7 @@ import { useService } from "../../hooks/useService";
 import { getEntityById } from "../../services/BackendService";
 import { useEffect } from "react";
 import EntityModalProps from "./types/EntityModalProps";
+import { useAuth } from "../../providers/AuthProvider";
 
 export default function UbicacionModal({
   open,
@@ -19,9 +20,11 @@ export default function UbicacionModal({
   onDelete,
   onEdit,
 }: EntityModalProps) {
+  const { token } = useAuth();
+
   const { data: ubicacion } = useService(async () => {
     if (id) {
-      return await getEntityById<Ubicacion>(API_UBICACION_PATH, id);
+      return await getEntityById<Ubicacion>(API_UBICACION_PATH, id, token);
     }
   }, [API_UBICACION_PATH, id]);
 

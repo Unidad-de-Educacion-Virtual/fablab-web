@@ -14,6 +14,7 @@ import { Instructor } from "../../types/Instructor";
 import { Ubicacion } from "../../types/Ubicacion";
 import EntityModalProps from "./types/EntityModalProps";
 import { Sesion, SesionForm } from "../../types/Sesion";
+import { useAuth } from "../../providers/AuthProvider";
 
 export default function SesionModal({
   open,
@@ -27,18 +28,20 @@ export default function SesionModal({
   onDelete,
   onEdit,
 }: EntityModalProps) {
+  const { token } = useAuth();
+
   const { data: sesion } = useService(async () => {
     if (id) {
-      return await getEntityById<Sesion>(API_SESION_PATH, id);
+      return await getEntityById<Sesion>(API_SESION_PATH, id, token);
     }
   }, [API_SESION_PATH, id]);
 
   const { data: instructores } = useService(async () => {
-    return await getEntity<Instructor>(API_INSTRUCTOR_PATH);
+    return await getEntity<Instructor>(API_INSTRUCTOR_PATH, "", token);
   }, [API_INSTRUCTOR_PATH]);
 
   const { data: ubicaciones } = useService(async () => {
-    return await getEntity<Ubicacion>(API_UBICACION_PATH);
+    return await getEntity<Ubicacion>(API_UBICACION_PATH, "", token);
   }, [API_UBICACION_PATH]);
 
   const formMethods = useForm<SesionForm>();

@@ -1,8 +1,8 @@
-import { RouterProvider, createBrowserRouter } from "react-router-dom";
-import { createRoutesFromElements } from "react-router-dom";
-import { Route } from "react-router-dom";
-
-import App from "./layouts/App";
+import {
+  Navigate,
+  RouterProvider,
+  createBrowserRouter,
+} from "react-router-dom";
 import NotFound from "./pages/NotFound";
 import Talleres from "./pages/talleres/Talleres";
 import TallerDetails from "./pages/taller-details/TallerDetails";
@@ -15,31 +15,106 @@ import Participantes from "./pages/participantes/Participantes";
 import ProgramacionDetails from "./pages/programacion-details/ProgramacionDetails";
 import SesionDetails from "./pages/sesion-details/SesionDetails";
 import Inscripciones from "./pages/inscripciones/Inscripciones";
+import { useAuth } from "./providers/AuthProvider";
+import { ProtectedRoute } from "./components/ProtectedRoute";
+import Login from "./pages/login/Login";
+import Logout from "./pages/logout/Logout";
 
 export default function Router() {
-  const router = createBrowserRouter(
-    createRoutesFromElements(
-      <Route path="/" element={<App />} errorElement={<NotFound />}>
-        <Route path="talleres" element={<Talleres />}></Route>
-        <Route path="talleres/:idTaller" element={<TallerDetails />}></Route>
-        <Route
-          path="talleres/:idTaller/programaciones/:idProgramacion"
-          element={<ProgramacionDetails />}
-        ></Route>
-        <Route
-          path="talleres/:idTaller/programaciones/:idProgramacion/sesiones/:idSesion"
-          element={<SesionDetails />}
-        ></Route>
-        <Route path="instructores" element={<Instructores />}></Route>
-        <Route path="ubicaciones" element={<Ubicaciones />}></Route>
-        <Route path="tipos-documento" element={<TiposDocumento />}></Route>
-        <Route path="municipios" element={<Municipios />}></Route>
-        <Route path="colegios" element={<Colegios />}></Route>
-        <Route path="participantes" element={<Participantes />}></Route>
-        <Route path="inscripciones" element={<Inscripciones />}></Route>
-      </Route>
-    )
-  );
+  const { token } = useAuth();
+
+  const routesForNotAuthenticatedOnly = [
+    {
+      path: "/",
+      element: <Navigate to={"login"} />,
+    },
+    {
+      path: "/login",
+      element: <Login />,
+    },
+  ];
+
+  const routesForAuthenticatedOnly = [
+    {
+      path: "/",
+      element: <ProtectedRoute />,
+      errorElement: <NotFound />,
+      children: [
+        {
+          path: "talleres",
+          children: [
+            {
+              element: <Talleres />,
+              index: true,
+            },
+            {
+              path: ":idTaller",
+              children: [
+                {
+                  element: <TallerDetails />,
+                  index: true,
+                },
+                {
+                  path: "programaciones/:idProgramacion",
+                  children: [
+                    {
+                      element: <ProgramacionDetails />,
+                      index: true,
+                    },
+                    {
+                      path: "sesiones/:idSesion",
+                      element: <SesionDetails />,
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+        {
+          path: "instructores",
+          element: <Instructores />,
+        },
+        {
+          path: "ubicaciones",
+          element: <Ubicaciones />,
+        },
+        {
+          path: "tipos-documento",
+          element: <TiposDocumento />,
+        },
+        {
+          path: "municipios",
+          element: <Municipios />,
+        },
+        {
+          path: "colegios",
+          element: <Colegios />,
+        },
+        {
+          path: "participantes",
+          element: <Participantes />,
+        },
+        {
+          path: "inscripciones",
+          element: <Inscripciones />,
+        },
+        {
+          path: "login",
+          element: <Navigate to={"/"} />,
+        },
+        {
+          path: "logout",
+          element: <Logout />,
+        },
+      ],
+    },
+  ];
+
+  const router = createBrowserRouter([
+    ...(!token ? routesForNotAuthenticatedOnly : []),
+    ...routesForAuthenticatedOnly,
+  ]);
 
   return <RouterProvider router={router} />;
 }

@@ -11,3 +11,4 @@ export const API_SESION_PATH = "sesion";
 export const API_INSCRIPCION_PATH = "inscripcion";
 export const API_ASISTENTE_PATH = "asistente";
 export const API_EVIDENCIA_PATH = "evidencia";
+export const API_LOGIN_PATH = "auth/login";

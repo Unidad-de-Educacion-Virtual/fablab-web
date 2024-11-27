@@ -7,6 +7,7 @@ import { useService } from "../../hooks/useService";
 import { getEntityById } from "../../services/BackendService";
 import { useEffect } from "react";
 import EntityModalProps from "./types/EntityModalProps";
+import { useAuth } from "../../providers/AuthProvider";
 
 export default function MunicipioModal({
   open,
@@ -19,9 +20,11 @@ export default function MunicipioModal({
   onDelete,
   onEdit,
 }: EntityModalProps) {
+  const { token } = useAuth();
+
   const { data: municipio } = useService(async () => {
     if (id) {
-      return await getEntityById<Municipio>(API_MUNICIPIO_PATH, id);
+      return await getEntityById<Municipio>(API_MUNICIPIO_PATH, id, token);
     }
   }, [API_MUNICIPIO_PATH, id]);
 

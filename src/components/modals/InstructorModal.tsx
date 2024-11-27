@@ -8,6 +8,7 @@ import { getEntityById } from "../../services/BackendService";
 import { useService } from "../../hooks/useService";
 import { useEffect } from "react";
 import EntityModalProps from "./types/EntityModalProps";
+import { useAuth } from "../../providers/AuthProvider";
 
 export default function InstructorModal({
   open,
@@ -20,9 +21,11 @@ export default function InstructorModal({
   onDelete,
   onEdit,
 }: EntityModalProps) {
+  const { token } = useAuth();
+
   const { data: instructor } = useService(async () => {
     if (id) {
-      return await getEntityById<Instructor>(API_INSTRUCTOR_PATH, id);
+      return await getEntityById<Instructor>(API_INSTRUCTOR_PATH, id, token);
     }
   }, [API_INSTRUCTOR_PATH, id]);
 

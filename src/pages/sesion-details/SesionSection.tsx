@@ -5,14 +5,16 @@ import PropertyValue from "../../components/PropertyValue";
 import InformationLayout from "../../layouts/Informationlayout";
 import { Sesion } from "../../types/Sesion";
 import SesionModal from "../../components/modals/SesionModal";
+import { useAuth } from "../../providers/AuthProvider";
 
 interface SesionSectionProps {
   id: number;
 }
 
 export default function SesionSection({ id }: SesionSectionProps) {
+  const { token } = useAuth();
   const { data: sesion, refresh } = useService(
-    async () => await getEntityById<Sesion>(API_SESION_PATH, id),
+    async () => await getEntityById<Sesion>(API_SESION_PATH, id, token),
     [id]
   );
 

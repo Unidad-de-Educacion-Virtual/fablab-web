@@ -8,6 +8,7 @@ import Button from "../components/Button";
 import { Link } from "react-router-dom";
 import EntityModalProps from "../components/modals/types/EntityModalProps";
 import { toast, Toaster } from "sonner";
+import { useAuth } from "../providers/AuthProvider";
 
 interface BasicCrudLayoutProps {
   apiPath: string;
@@ -30,8 +31,9 @@ export default function BasicCrudLayout<T>({
   queryParams = "",
   parentId,
 }: BasicCrudLayoutProps) {
+  const { token } = useAuth();
   const { data: entities, refresh } = useService(
-    async () => await getEntity<T>(apiPath, queryParams),
+    async () => await getEntity<T>(apiPath, queryParams, token),
     [apiPath, queryParams]
   );
   const [createModal, setCreateModal] = useState(false);
@@ -93,7 +95,7 @@ export default function BasicCrudLayout<T>({
 
   async function handleDelete(id: number) {
     try {
-      await deleteEntity<T>(apiPath, id);
+      await deleteEntity<T>(apiPath, id, token);
       toast.success("Eliminado con éxito");
       refresh();
     } catch (error: any) {
@@ -136,6 +138,7 @@ export default function BasicCrudLayout<T>({
         triggerRefresh={refresh}
         enableDelete={true}
         id={editItemId}
+        parentId={parentId}
       />
 
       <DataTable columns={cols} rows={rows} />

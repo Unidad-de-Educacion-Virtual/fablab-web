@@ -16,6 +16,7 @@ import { Programacion, ProgramacionForm } from "../../types/Programacion";
 import { Instructor } from "../../types/Instructor";
 import { Ubicacion } from "../../types/Ubicacion";
 import EntityModalProps from "./types/EntityModalProps";
+import { useAuth } from "../../providers/AuthProvider";
 
 export default function ProgramacionModal({
   open,
@@ -29,22 +30,27 @@ export default function ProgramacionModal({
   onDelete,
   onEdit,
 }: EntityModalProps) {
+  const { token } = useAuth();
   const { data: programacion } = useService(async () => {
     if (id) {
-      return await getEntityById<Programacion>(API_PROGRAMACION_PATH, id);
+      return await getEntityById<Programacion>(
+        API_PROGRAMACION_PATH,
+        id,
+        token
+      );
     }
   }, [API_PROGRAMACION_PATH, id]);
 
   const { data: colegios } = useService(async () => {
-    return await getEntity<Colegio>(API_COLEGIO_PATH);
+    return await getEntity<Colegio>(API_COLEGIO_PATH, "", token);
   }, [API_COLEGIO_PATH]);
 
   const { data: instructores } = useService(async () => {
-    return await getEntity<Instructor>(API_INSTRUCTOR_PATH);
+    return await getEntity<Instructor>(API_INSTRUCTOR_PATH, "", token);
   }, [API_INSTRUCTOR_PATH]);
 
   const { data: ubicaciones } = useService(async () => {
-    return await getEntity<Ubicacion>(API_UBICACION_PATH);
+    return await getEntity<Ubicacion>(API_UBICACION_PATH, "", token);
   }, [API_UBICACION_PATH]);
 
   const formMethods = useForm<ProgramacionForm>();

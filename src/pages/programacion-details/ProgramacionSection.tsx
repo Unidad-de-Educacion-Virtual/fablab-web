@@ -5,14 +5,18 @@ import PropertyValue from "../../components/PropertyValue";
 import InformationLayout from "../../layouts/Informationlayout";
 import { Programacion } from "../../types/Programacion";
 import ProgramacionModal from "../../components/modals/ProgramacionModal";
+import { useAuth } from "../../providers/AuthProvider";
 
 interface ProgramacionSectionProps {
   id: number;
 }
 
 export default function ProgramacionSection({ id }: ProgramacionSectionProps) {
+  const { token } = useAuth();
+
   const { data: programacion, refresh } = useService(
-    async () => await getEntityById<Programacion>(API_PROGRAMACION_PATH, id),
+    async () =>
+      await getEntityById<Programacion>(API_PROGRAMACION_PATH, id, token),
     [id]
   );
 

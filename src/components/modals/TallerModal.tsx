@@ -7,6 +7,7 @@ import EntityModalProps from "./types/EntityModalProps";
 import { getEntityById } from "../../services/BackendService";
 import { useService } from "../../hooks/useService";
 import { useEffect } from "react";
+import { useAuth } from "../../providers/AuthProvider";
 
 export default function TallerModal({
   open,
@@ -19,9 +20,11 @@ export default function TallerModal({
   onCreate,
   onEdit,
 }: EntityModalProps) {
+  const { token } = useAuth();
+
   const { data: taller } = useService(async () => {
     if (id) {
-      return await getEntityById<Taller>(API_TALLER_PATH, id);
+      return await getEntityById<Taller>(API_TALLER_PATH, id, token);
     }
   }, [API_TALLER_PATH, id]);
   const formMethods = useForm<TallerForm>();

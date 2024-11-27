@@ -13,6 +13,7 @@ import EntityModalProps from "./types/EntityModalProps";
 import { Inscripcion, InscripcionForm } from "../../types/Inscripcion";
 import { Participante } from "../../types/Participante";
 import { Programacion } from "../../types/Programacion";
+import { useAuth } from "../../providers/AuthProvider";
 
 export default function InscripcionModal({
   open,
@@ -26,18 +27,20 @@ export default function InscripcionModal({
   onDelete,
   onEdit,
 }: EntityModalProps) {
+  const { token } = useAuth();
+
   const { data: inscripcion } = useService(async () => {
     if (id) {
-      return await getEntityById<Inscripcion>(API_INSCRIPCION_PATH, id);
+      return await getEntityById<Inscripcion>(API_INSCRIPCION_PATH, id, token);
     }
   }, [API_INSCRIPCION_PATH, id]);
 
   const { data: programaciones } = useService(async () => {
-    return await getEntity<Programacion>(API_PROGRAMACION_PATH);
+    return await getEntity<Programacion>(API_PROGRAMACION_PATH, "", token);
   }, [API_PROGRAMACION_PATH]);
 
   const { data: participantes } = useService(async () => {
-    return await getEntity<Participante>(API_PARTICIPANTE_PATH);
+    return await getEntity<Participante>(API_PARTICIPANTE_PATH, "", token);
   }, [API_PARTICIPANTE_PATH]);
 
   const formMethods = useForm<InscripcionForm>();

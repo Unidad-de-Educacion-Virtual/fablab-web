@@ -8,6 +8,7 @@ import { useEffect } from "react";
 import EntityModalProps from "./types/EntityModalProps";
 import { Asistente, AsistenteForm } from "../../types/Asistente";
 import { Participante } from "../../types/Participante";
+import { useAuth } from "../../providers/AuthProvider";
 
 export default function AsistenteModal({
   open,
@@ -21,14 +22,16 @@ export default function AsistenteModal({
   onDelete,
   onEdit,
 }: EntityModalProps) {
+  const { token } = useAuth();
+
   const { data: asistente } = useService(async () => {
     if (id) {
-      return await getEntityById<Asistente>(API_ASISTENTE_PATH, id);
+      return await getEntityById<Asistente>(API_ASISTENTE_PATH, id, token);
     }
   }, [API_ASISTENTE_PATH, id]);
 
   const { data: participantes } = useService(async () => {
-    return await getEntity<Participante>(API_PARTICIPANTE_PATH);
+    return await getEntity<Participante>(API_PARTICIPANTE_PATH, "", token);
   }, [API_PARTICIPANTE_PATH]);
 
   const formMethods = useForm<AsistenteForm>();

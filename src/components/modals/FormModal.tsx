@@ -14,6 +14,7 @@ import {
   updateEntity,
 } from "../../services/BackendService";
 import { ReactNode, useEffect } from "react";
+import { useAuth } from "../../providers/AuthProvider";
 
 interface FormModalProps<T extends FieldValues> {
   open: boolean;
@@ -52,6 +53,8 @@ export default function FormModal<T extends FieldValues, U>({
   onEdit = () => {},
   onCreate = () => {},
 }: FormModalProps<T>) {
+  const { token } = useAuth();
+
   useEffect(() => {
     if (entityId) {
       formMethods.reset();
@@ -66,15 +69,15 @@ export default function FormModal<T extends FieldValues, U>({
       let entity = null;
 
       if (operation === "create" && data) {
-        entity = await createEntity<T, U>(baseApiPath, data);
+        entity = await createEntity<T, U>(baseApiPath, data, token);
       }
 
       if (operation === "edit" && entityId && data) {
-        entity = await updateEntity<T, U>(baseApiPath, entityId, data);
+        entity = await updateEntity<T, U>(baseApiPath, entityId, data, token);
       }
 
       if (operation === "delete" && entityId) {
-        entity = await deleteEntity<T>(baseApiPath, entityId);
+        entity = await deleteEntity<T>(baseApiPath, entityId, token);
       }
 
       if (entity) {

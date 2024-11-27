@@ -14,6 +14,7 @@ import Select from "../Select";
 import { useEffect } from "react";
 import { TipoDocumento } from "../../types/TipoDocumento";
 import EntityModalProps from "./types/EntityModalProps";
+import { useAuth } from "../../providers/AuthProvider";
 
 export default function ParticipanteModal({
   open,
@@ -26,18 +27,24 @@ export default function ParticipanteModal({
   onDelete,
   onEdit,
 }: EntityModalProps) {
+  const { token } = useAuth();
+
   const { data: participante } = useService(async () => {
     if (id) {
-      return await getEntityById<Participante>(API_PARTICIPANTE_PATH, id);
+      return await getEntityById<Participante>(
+        API_PARTICIPANTE_PATH,
+        id,
+        token
+      );
     }
   }, [API_PARTICIPANTE_PATH, id]);
 
   const { data: colegios } = useService(async () => {
-    return await getEntity<Colegio>(API_COLEGIO_PATH);
+    return await getEntity<Colegio>(API_COLEGIO_PATH, "", token);
   }, [API_COLEGIO_PATH]);
 
   const { data: tiposDocumento } = useService(async () => {
-    return await getEntity<TipoDocumento>(API_TIPO_DOCUMENTO_PATH);
+    return await getEntity<TipoDocumento>(API_TIPO_DOCUMENTO_PATH, "", token);
   }, [API_TIPO_DOCUMENTO_PATH]);
 
   const formMethods = useForm<ParticipanteForm>();

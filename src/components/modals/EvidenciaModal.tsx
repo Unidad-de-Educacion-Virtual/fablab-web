@@ -7,6 +7,7 @@ import { useEffect } from "react";
 import EntityModalProps from "./types/EntityModalProps";
 import { Evidencia, EvidenciaForm } from "../../types/Evidencia";
 import Input from "../Input";
+import { useAuth } from "../../providers/AuthProvider";
 
 export default function EvidenciaModal({
   open,
@@ -20,9 +21,11 @@ export default function EvidenciaModal({
   onDelete,
   onEdit,
 }: EntityModalProps) {
+  const { token } = useAuth();
+
   const { data: evidencia } = useService(async () => {
     if (id) {
-      return await getEntityById<Evidencia>(API_EVIDENCIA_PATH, id);
+      return await getEntityById<Evidencia>(API_EVIDENCIA_PATH, id, token);
     }
   }, [API_EVIDENCIA_PATH, id]);
 
