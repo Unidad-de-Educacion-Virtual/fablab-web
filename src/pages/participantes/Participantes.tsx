@@ -1,9 +1,12 @@
 import { GridColDef } from "@mui/x-data-grid";
-import { API_PARTICIPANTE_PATH } from "../../config";
+import { API_PARTICIPANTE_PATH, ROLE } from "../../config";
 import BasicCrudLayout from "../../layouts/BasicCrudLayout";
 import ParticipanteModal from "../../components/modals/ParticipanteModal";
+import { useAuth } from "../../providers/AuthProvider";
 
 export default function Participantes() {
+  const { claims } = useAuth();
+
   const columns: GridColDef[] = [
     {
       field: "id",
@@ -35,6 +38,8 @@ export default function Participantes() {
       columns={columns}
       title="Participantes"
       EntityModal={ParticipanteModal}
+      enableCreate={claims ? [ROLE.ADMIN].includes(claims.rol) : false}
+      enableDelete={claims ? [ROLE.ADMIN].includes(claims.rol) : false}
     />
   );
 }

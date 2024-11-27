@@ -1,6 +1,6 @@
 import { useService } from "../../hooks/useService";
 import { getEntityById } from "../../services/BackendService";
-import { API_PROGRAMACION_PATH } from "../../config";
+import { API_PROGRAMACION_PATH, ROLE } from "../../config";
 import PropertyValue from "../../components/PropertyValue";
 import InformationLayout from "../../layouts/Informationlayout";
 import { Programacion } from "../../types/Programacion";
@@ -12,7 +12,7 @@ interface ProgramacionSectionProps {
 }
 
 export default function ProgramacionSection({ id }: ProgramacionSectionProps) {
-  const { token } = useAuth();
+  const { token, claims } = useAuth();
 
   const { data: programacion, refresh } = useService(
     async () =>
@@ -25,6 +25,7 @@ export default function ProgramacionSection({ id }: ProgramacionSectionProps) {
       entityId={id}
       EntityModal={ProgramacionModal}
       refresh={refresh}
+      enableEdit={claims ? [ROLE.ADMIN].includes(claims.rol) : false}
     >
       <PropertyValue name="Taller" value={programacion?.taller.nombre} />
       <PropertyValue

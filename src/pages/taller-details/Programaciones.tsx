@@ -1,15 +1,17 @@
 import { GridColDef } from "@mui/x-data-grid";
 import BasicCrudLayout from "../../layouts/BasicCrudLayout";
-import { API_PROGRAMACION_PATH } from "../../config";
+import { API_PROGRAMACION_PATH, ROLE } from "../../config";
 import ProgramacionModal from "../../components/modals/ProgramacionModal";
 import { Instructor } from "../../types/Instructor";
 import { Ubicacion } from "../../types/Ubicacion";
+import { useAuth } from "../../providers/AuthProvider";
 
 interface ProgramacionesProps {
   tallerId?: number;
 }
 
 export default function Programaciones({ tallerId }: ProgramacionesProps) {
+  const { claims } = useAuth();
   const columns: GridColDef[] = [
     {
       field: "id",
@@ -60,6 +62,7 @@ export default function Programaciones({ tallerId }: ProgramacionesProps) {
       columns={columns}
       title="Programaciones"
       EntityModal={ProgramacionModal}
+      enableCreate={claims ? [ROLE.ADMIN].includes(claims.rol) : false}
     />
   );
 }

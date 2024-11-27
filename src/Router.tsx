@@ -19,9 +19,10 @@ import { useAuth } from "./providers/AuthProvider";
 import { ProtectedRoute } from "./components/ProtectedRoute";
 import Login from "./pages/login/Login";
 import Logout from "./pages/logout/Logout";
+import { ROLE } from "./config";
 
 export default function Router() {
-  const { token } = useAuth();
+  const { token, claims } = useAuth();
 
   const routesForNotAuthenticatedOnly = [
     {
@@ -35,12 +36,12 @@ export default function Router() {
   ];
 
   const routesForAuthenticatedOnly = [
-    {
+    (claims && {
       path: "/",
       element: <ProtectedRoute />,
       errorElement: <NotFound />,
       children: [
-        {
+        [ROLE.ADMIN, ROLE.INSTRUCTOR].includes(claims.rol) && {
           path: "talleres",
           children: [
             {
@@ -71,31 +72,31 @@ export default function Router() {
             },
           ],
         },
-        {
+        [ROLE.ADMIN].includes(claims.rol) && {
           path: "instructores",
           element: <Instructores />,
         },
-        {
+        [ROLE.ADMIN].includes(claims.rol) && {
           path: "ubicaciones",
           element: <Ubicaciones />,
         },
-        {
+        [ROLE.ADMIN].includes(claims.rol) && {
           path: "tipos-documento",
           element: <TiposDocumento />,
         },
-        {
+        [ROLE.ADMIN].includes(claims.rol) && {
           path: "municipios",
           element: <Municipios />,
         },
-        {
+        [ROLE.ADMIN].includes(claims.rol) && {
           path: "colegios",
           element: <Colegios />,
         },
-        {
+        [ROLE.ADMIN, ROLE.INSTRUCTOR].includes(claims.rol) && {
           path: "participantes",
           element: <Participantes />,
         },
-        {
+        [ROLE.ADMIN].includes(claims.rol) && {
           path: "inscripciones",
           element: <Inscripciones />,
         },
@@ -108,7 +109,8 @@ export default function Router() {
           element: <Logout />,
         },
       ],
-    },
+    }) ||
+      {},
   ];
 
   const router = createBrowserRouter([

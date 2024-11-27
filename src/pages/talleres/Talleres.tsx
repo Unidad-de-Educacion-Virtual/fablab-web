@@ -1,9 +1,11 @@
 import { GridColDef } from "@mui/x-data-grid";
-import { API_TALLER_PATH } from "../../config";
+import { API_TALLER_PATH, ROLE } from "../../config";
 import BasicCrudLayout from "../../layouts/BasicCrudLayout";
 import TallerModal from "../../components/modals/TallerModal";
+import { useAuth } from "../../providers/AuthProvider";
 
 export default function Talleres() {
+  const { claims } = useAuth();
   const columns: GridColDef[] = [
     {
       field: "id",
@@ -29,6 +31,7 @@ export default function Talleres() {
       columns={columns}
       title="Talleres"
       EntityModal={TallerModal}
+      enableCreate={claims ? [ROLE.ADMIN].includes(claims.rol) : false}
     />
   );
 }

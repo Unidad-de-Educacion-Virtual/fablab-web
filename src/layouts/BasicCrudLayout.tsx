@@ -16,9 +16,11 @@ interface BasicCrudLayoutProps {
   title: string;
   EntityModal: (props: EntityModalProps) => ReactElement;
   viewBasePath?: string;
-  action?: "view" | "edit" | "delete";
+  action?: "view" | "edit" | "delete" | null;
   queryParams?: string;
   parentId?: number;
+  enableCreate?: boolean;
+  enableDelete?: boolean;
 }
 
 export default function BasicCrudLayout<T>({
@@ -30,6 +32,8 @@ export default function BasicCrudLayout<T>({
   action = "edit",
   queryParams = "",
   parentId,
+  enableCreate = true,
+  enableDelete = true,
 }: BasicCrudLayoutProps) {
   const { token } = useAuth();
   const { data: entities, refresh } = useService(
@@ -40,9 +44,10 @@ export default function BasicCrudLayout<T>({
   const [editModal, setEditModal] = useState(false);
   const [editItemId, setEditItemId] = useState(0);
 
-  const cols: GridColDef[] = [
-    ...columns,
-    {
+  const cols: GridColDef[] = [...columns];
+
+  if (action) {
+    cols.push({
       field: "",
       headerName: "Acción",
       sortable: false,
@@ -78,8 +83,8 @@ export default function BasicCrudLayout<T>({
           )}
         </div>
       ),
-    },
-  ];
+    });
+  }
 
   const rows = useMemo(() => {
     if (!entities) {
@@ -114,29 +119,33 @@ export default function BasicCrudLayout<T>({
     <ContentLayout
       title={title}
       button={
-        <Button
-          text="Crear"
-          icon="material-symbols:add-rounded"
-          onClick={() => setCreateModal(true)}
-        />
+        enableCreate && (
+          <Button
+            text="Crear"
+            icon="material-symbols:add-rounded"
+            onClick={() => setCreateModal(true)}
+          />
+        )
       }
     >
       <Toaster position="top-center" richColors />
 
-      <EntityModal
-        mode="create"
-        open={createModal}
-        setOpen={setCreateModal}
-        triggerRefresh={refresh}
-        parentId={parentId}
-      />
+      {enableCreate && (
+        <EntityModal
+          mode="create"
+          open={createModal}
+          setOpen={setCreateModal}
+          triggerRefresh={refresh}
+          parentId={parentId}
+        />
+      )}
 
       <EntityModal
         mode="edit"
         open={editModal}
         setOpen={setEditModal}
         triggerRefresh={refresh}
-        enableDelete={true}
+        enableDelete={enableDelete}
         id={editItemId}
         parentId={parentId}
       />

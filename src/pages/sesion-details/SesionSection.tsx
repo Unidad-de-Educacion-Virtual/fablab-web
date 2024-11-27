@@ -1,6 +1,6 @@
 import { useService } from "../../hooks/useService";
 import { getEntityById } from "../../services/BackendService";
-import { API_SESION_PATH } from "../../config";
+import { API_SESION_PATH, ROLE } from "../../config";
 import PropertyValue from "../../components/PropertyValue";
 import InformationLayout from "../../layouts/Informationlayout";
 import { Sesion } from "../../types/Sesion";
@@ -12,7 +12,7 @@ interface SesionSectionProps {
 }
 
 export default function SesionSection({ id }: SesionSectionProps) {
-  const { token } = useAuth();
+  const { token, claims } = useAuth();
   const { data: sesion, refresh } = useService(
     async () => await getEntityById<Sesion>(API_SESION_PATH, id, token),
     [id]
@@ -23,6 +23,7 @@ export default function SesionSection({ id }: SesionSectionProps) {
       entityId={id}
       EntityModal={SesionModal}
       refresh={refresh}
+      enableEdit={claims ? [ROLE.ADMIN].includes(claims.rol) : false}
     >
       <PropertyValue name="Fecha" value={sesion?.fecha} />
       <PropertyValue name="Hora" value={sesion?.hora} />

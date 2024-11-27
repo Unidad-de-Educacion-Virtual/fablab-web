@@ -1,14 +1,17 @@
 import { GridColDef } from "@mui/x-data-grid";
 import BasicCrudLayout from "../../layouts/BasicCrudLayout";
-import { API_INSCRIPCION_PATH } from "../../config";
+import { API_INSCRIPCION_PATH, ROLE } from "../../config";
 import { Participante } from "../../types/Participante";
 import InscripcionModal from "../../components/modals/InscripcionModal";
+import { useAuth } from "../../providers/AuthProvider";
 
 interface InscripcionesProps {
   programacionId?: number;
 }
 
 export default function Inscripciones({ programacionId }: InscripcionesProps) {
+  const { claims } = useAuth();
+
   const columns: GridColDef[] = [
     {
       field: "id",
@@ -30,10 +33,12 @@ export default function Inscripciones({ programacionId }: InscripcionesProps) {
     },
   ];
 
+  const enableDelete = claims ? [ROLE.ADMIN].includes(claims.rol) : false;
+
   return (
     <BasicCrudLayout
       parentId={programacionId}
-      action="delete"
+      action={enableDelete ? "delete" : null}
       queryParams={programacionId ? `programacionId=${programacionId}` : ""}
       apiPath={API_INSCRIPCION_PATH}
       columns={columns}
