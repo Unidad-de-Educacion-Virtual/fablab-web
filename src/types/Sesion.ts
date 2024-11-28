@@ -15,7 +15,13 @@ export interface Sesion {
     nombre: string;
   };
   totalAsistentes: number;
+  cantidadEvidencias: number;
+  taller: {
+    id: number;
+    nombre: string;
+  };
 }
+
 export interface SesionForm {
   fecha: string;
   hora: string;

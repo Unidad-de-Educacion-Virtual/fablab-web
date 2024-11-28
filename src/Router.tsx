@@ -20,6 +20,7 @@ import { ProtectedRoute } from "./components/ProtectedRoute";
 import Login from "./pages/login/Login";
 import Logout from "./pages/logout/Logout";
 import { ROLE } from "./config";
+import Inicio from "./pages/inicio/Inicio";
 
 export default function Router() {
   const { token, claims } = useAuth();
@@ -41,6 +42,10 @@ export default function Router() {
       element: <ProtectedRoute />,
       errorElement: <NotFound />,
       children: [
+        [ROLE.ADMIN].includes(claims.rol) && {
+          path: "",
+          element: <Inicio />,
+        },
         [ROLE.ADMIN, ROLE.INSTRUCTOR].includes(claims.rol) && {
           path: "talleres",
           children: [

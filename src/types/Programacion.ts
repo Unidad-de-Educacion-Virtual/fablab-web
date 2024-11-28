@@ -1,11 +1,5 @@
 export interface Programacion {
   id: number;
-  fechaInicio: string;
-  fechaFin: string;
-  cantidad: number;
-  grado: number;
-  grupo: string;
-  observacion: string;
   colegio: {
     id: number;
     nombre: string;
@@ -14,14 +8,21 @@ export interface Programacion {
     id: number;
     nombre: string;
   };
+  fechaInicio: string;
+  fechaFin: string;
+  cantidad: number;
+  observacion: string;
   instructor: {
     id: number;
     nombre: string;
   };
+  grado: number;
+  grupo: string;
   ubicacion: {
     id: number;
     nombre: string;
   };
+  cantidadInscritos: number;
 }
 
 export interface ProgramacionForm {
