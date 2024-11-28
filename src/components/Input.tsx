@@ -3,7 +3,7 @@ import { useFormContext } from "react-hook-form";
 interface InputProps {
   name: string;
   label: string;
-  type?: "text" | "textarea" | "date" | "time" | "number" | "password";
+  type?: "text" | "textarea" | "date" | "time" | "number" | "password" | "file";
   placeholder?: string;
 }
 

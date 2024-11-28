@@ -36,7 +36,6 @@ export default function EvidenciaModal({
       formMethods.reset({
         sesionId: evidencia.sesion.id,
         observacion: evidencia.observacion,
-        url: evidencia.url,
       });
     } else if (parentId) {
       formMethods.reset({
@@ -47,6 +46,7 @@ export default function EvidenciaModal({
 
   return (
     <FormModal
+      type="formData"
       formMethods={formMethods}
       open={open}
       setOpen={setOpen}
@@ -69,7 +69,7 @@ export default function EvidenciaModal({
       onEdit={onEdit}
       onCreate={onCreate}
     >
-      <Input label="Archivo" name="url" />
+      <Input label="Archivo" name="file" type="file" />
       <Input label="Observación" name="observacion" type="textarea" />
     </FormModal>
   );

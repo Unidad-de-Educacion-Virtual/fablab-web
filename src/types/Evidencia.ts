@@ -10,7 +10,6 @@ export interface Evidencia {
 
 export interface EvidenciaForm {
   sesionId: number;
-  url: string;
+  file: string;
   observacion: string;
-  fecha: string;
 }

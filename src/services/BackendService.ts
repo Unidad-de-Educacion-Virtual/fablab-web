@@ -75,15 +75,20 @@ export async function createEntity<T, U>(
     ...defaultHeaders,
   };
 
-  if (token) {
-    headers["Authorization"] = `Bearer ${token}`;
-  }
-
   const init: RequestInit = {
     method: "POST",
     headers,
     body: JSON.stringify(body),
   };
+
+  if (body instanceof FormData) {
+    delete headers["Content-Type"];
+    init.body = body;
+  }
+
+  if (token) {
+    headers["Authorization"] = `Bearer ${token}`;
+  }
 
   const data = await doRequest(base, init);
   return data as U;
@@ -109,6 +114,11 @@ export async function updateEntity<T, U>(
     body: JSON.stringify(body),
   };
 
+  if (body instanceof FormData) {
+    delete headers["Content-Type"];
+    init.body = body;
+  }
+
   const data = await doRequest(`${base}/${id}`, init);
   return data as U;
 }
@@ -133,4 +143,33 @@ export async function deleteEntity<T>(
 
   const data = await doRequest(`${base}/${id}`, init);
   return data as T;
+}
+
+export async function getEntityByIdAsBlob(
+  base: string,
+  id: number | string,
+  token?: string | null
+) {
+  const headers = {
+    ...defaultHeaders,
+  };
+
+  if (token) {
+    headers["Authorization"] = `Bearer ${token}`;
+  }
+
+  const init: RequestInit = {
+    method: "GET",
+    headers,
+  };
+
+  const res = await fetch(`${API_BASE_URL}/${base}/${id}`, init);
+
+  const data = await res.blob();
+
+  if (!res.ok) {
+    throw new Error(`Ha ocurrido un error ${res.status} ${res.statusText}`);
+  }
+
+  return data;
 }

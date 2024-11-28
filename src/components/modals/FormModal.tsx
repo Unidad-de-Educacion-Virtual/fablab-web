@@ -32,6 +32,7 @@ interface FormModalProps<T extends FieldValues> {
   onDelete?: () => void;
   onEdit?: () => void;
   onCreate?: () => void;
+  type?: "formData" | "json";
   formMethods: UseFormReturn<T>;
 }
 
@@ -49,6 +50,7 @@ export default function FormModal<T extends FieldValues, U>({
   title,
   enableDelete,
   formMethods,
+  type = "json",
   onDelete = () => {},
   onEdit = () => {},
   onCreate = () => {},
@@ -111,8 +113,21 @@ export default function FormModal<T extends FieldValues, U>({
   }
 
   const onSubmit: SubmitHandler<T> = async (data) => {
-    console.log(data);
-    handleEvent(mode, data);
+    if (type === "formData") {
+      const formData = new FormData();
+
+      for (const key in data) {
+        if ((data[key] as any) instanceof FileList) {
+          formData.append(key, data[key][0]);
+        } else {
+          formData.append(key, data[key]);
+        }
+      }
+
+      handleEvent(mode, formData as unknown as T);
+    } else {
+      handleEvent(mode, data);
+    }
   };
 
   return (
