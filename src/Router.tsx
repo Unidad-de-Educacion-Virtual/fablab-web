@@ -21,9 +21,10 @@ import Login from "./pages/login/Login";
 import Logout from "./pages/logout/Logout";
 import { ROLE } from "./config";
 import Inicio from "./pages/inicio/Inicio";
+import AppLayout from "./layouts/AppLayout";
 
 export default function Router() {
-  const { token, claims } = useAuth();
+  const { token } = useAuth();
 
   const routesForNotAuthenticatedOnly = [
     {
@@ -37,17 +38,22 @@ export default function Router() {
   ];
 
   const routesForAuthenticatedOnly = [
-    (claims && {
+    {
       path: "/",
-      element: <ProtectedRoute />,
+      element: <AppLayout />,
       errorElement: <NotFound />,
       children: [
-        [ROLE.ADMIN].includes(claims.rol) && {
-          path: "",
-          element: <Inicio />,
+        {
+          index: true,
+          element: (
+            <ProtectedRoute roles={[ROLE.ADMIN]}>
+              <Inicio />
+            </ProtectedRoute>
+          ),
         },
-        [ROLE.ADMIN, ROLE.INSTRUCTOR].includes(claims.rol) && {
+        {
           path: "talleres",
+          element: <ProtectedRoute roles={[ROLE.ADMIN, ROLE.INSTRUCTOR]} />,
           children: [
             {
               element: <Talleres />,
@@ -77,33 +83,61 @@ export default function Router() {
             },
           ],
         },
-        [ROLE.ADMIN].includes(claims.rol) && {
+        {
           path: "instructores",
-          element: <Instructores />,
+          element: (
+            <ProtectedRoute roles={[ROLE.ADMIN]}>
+              <Instructores />
+            </ProtectedRoute>
+          ),
         },
-        [ROLE.ADMIN].includes(claims.rol) && {
+        {
           path: "ubicaciones",
-          element: <Ubicaciones />,
+          element: (
+            <ProtectedRoute roles={[ROLE.ADMIN]}>
+              <Ubicaciones />
+            </ProtectedRoute>
+          ),
         },
-        [ROLE.ADMIN].includes(claims.rol) && {
+        {
           path: "tipos-documento",
-          element: <TiposDocumento />,
+          element: (
+            <ProtectedRoute roles={[ROLE.ADMIN]}>
+              <TiposDocumento />
+            </ProtectedRoute>
+          ),
         },
-        [ROLE.ADMIN].includes(claims.rol) && {
+        {
           path: "municipios",
-          element: <Municipios />,
+          element: (
+            <ProtectedRoute roles={[ROLE.ADMIN]}>
+              <Municipios />
+            </ProtectedRoute>
+          ),
         },
-        [ROLE.ADMIN].includes(claims.rol) && {
+        {
           path: "colegios",
-          element: <Colegios />,
+          element: (
+            <ProtectedRoute roles={[ROLE.ADMIN]}>
+              <Colegios />
+            </ProtectedRoute>
+          ),
         },
-        [ROLE.ADMIN, ROLE.INSTRUCTOR].includes(claims.rol) && {
+        {
           path: "participantes",
-          element: <Participantes />,
+          element: (
+            <ProtectedRoute roles={[ROLE.ADMIN, ROLE.INSTRUCTOR]}>
+              <Participantes />
+            </ProtectedRoute>
+          ),
         },
-        [ROLE.ADMIN].includes(claims.rol) && {
+        {
           path: "inscripciones",
-          element: <Inscripciones />,
+          element: (
+            <ProtectedRoute roles={[ROLE.ADMIN, ROLE.INSTRUCTOR]}>
+              <Inscripciones />
+            </ProtectedRoute>
+          ),
         },
         {
           path: "login",
@@ -114,8 +148,7 @@ export default function Router() {
           element: <Logout />,
         },
       ],
-    }) ||
-      {},
+    },
   ];
 
   const router = createBrowserRouter([

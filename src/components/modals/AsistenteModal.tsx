@@ -1,14 +1,19 @@
 import { useForm } from "react-hook-form";
 import FormModal from "./FormModal";
-import { API_ASISTENTE_PATH, API_PARTICIPANTE_PATH } from "../../config";
+import {
+  API_ASISTENTE_PATH,
+  API_INSCRIPCION_PATH,
+  API_SESION_PATH,
+} from "../../config";
 import { useService } from "../../hooks/useService";
 import { getEntity, getEntityById } from "../../services/BackendService";
 import Select from "../Select";
 import { useEffect } from "react";
 import EntityModalProps from "./types/EntityModalProps";
 import { Asistente, AsistenteForm } from "../../types/Asistente";
-import { Participante } from "../../types/Participante";
 import { useAuth } from "../../providers/AuthProvider";
+import { Sesion } from "../../types/Sesion";
+import { Inscripcion } from "../../types/Inscripcion";
 
 export default function AsistenteModal({
   open,
@@ -24,6 +29,12 @@ export default function AsistenteModal({
 }: EntityModalProps) {
   const { token } = useAuth();
 
+  const { data: sesion } = useService(async () => {
+    if (parentId) {
+      return await getEntityById<Sesion>(API_SESION_PATH, parentId, token);
+    }
+  }, [API_SESION_PATH, parentId]);
+
   const { data: asistente } = useService(async () => {
     if (id) {
       return await getEntityById<Asistente>(API_ASISTENTE_PATH, id, token);
@@ -31,8 +42,13 @@ export default function AsistenteModal({
   }, [API_ASISTENTE_PATH, id]);
 
   const { data: participantes } = useService(async () => {
-    return await getEntity<Participante>(API_PARTICIPANTE_PATH, "", token);
-  }, [API_PARTICIPANTE_PATH]);
+    const inscripciones = await getEntity<Inscripcion>(
+      API_INSCRIPCION_PATH,
+      `programacionId=${sesion?.programacion.id}`,
+      token
+    );
+    return inscripciones.map((inscripcion) => inscripcion.participante);
+  }, [API_INSCRIPCION_PATH, sesion]);
 
   const formMethods = useForm<AsistenteForm>();
 

@@ -45,23 +45,24 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
   }, [token]);
 
   useEffect(() => {
-    if (token) {
-      if (!claims?.exp) {
-        setToken(null);
-        return;
-      }
-
-      const expTime = claims.exp * 1000;
-      if (expTime < Date.now()) {
-        setToken(null);
-        return;
-      }
-
-      localStorage.setItem("token", token);
-    } else {
+    if (!token || !claims?.exp) {
       localStorage.removeItem("token");
+      return;
     }
-  }, [token]);
+
+    if (claims.exp * 1000 < Date.now()) {
+      setToken(null);
+      return;
+    }
+
+    localStorage.setItem("token", token);
+
+    const timeout = setTimeout(() => {
+      setToken(null);
+    }, claims.exp * 1000 - Date.now());
+
+    return () => clearTimeout(timeout);
+  }, [token, claims?.exp]);
 
   // Memoized value of the authentication context
   const contextValue = useMemo(

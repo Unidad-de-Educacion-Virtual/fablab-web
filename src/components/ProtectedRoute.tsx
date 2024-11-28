@@ -1,17 +1,22 @@
 import { Navigate, Outlet } from "react-router-dom";
 import { useAuth } from "../providers/AuthProvider";
-import AppLayout from "../layouts/AppLayout";
+import { ROLE } from "../config";
+import { ReactNode } from "react";
 
-export const ProtectedRoute = () => {
-  const { token } = useAuth();
+interface ProtectedRouteProps {
+  roles?: string[];
+  children?: ReactNode;
+}
 
-  if (!token) {
+export const ProtectedRoute = ({
+  roles = [ROLE.ADMIN, ROLE.INSTRUCTOR],
+  children,
+}: ProtectedRouteProps) => {
+  const { token, claims } = useAuth();
+
+  if (!token || !claims || !roles.includes(claims.rol)) {
     return <Navigate to="/login" />;
   }
 
-  return (
-    <AppLayout>
-      <Outlet />
-    </AppLayout>
-  );
+  return children || <Outlet />;
 };
