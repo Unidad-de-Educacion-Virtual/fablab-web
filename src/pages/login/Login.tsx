@@ -8,7 +8,7 @@ import { Toaster, toast } from "sonner";
 import { useAuth } from "../../providers/AuthProvider";
 import { useNavigate } from "react-router-dom";
 import bgImage from "../../assets/images/background.jpg";
-import fablabLogo from "../../assets/images/fablab-logo.svg";
+import fablabLogo from "../../assets/images/fablab-logo.jpg";
 
 export default function Login() {
   const { setToken } = useAuth();
