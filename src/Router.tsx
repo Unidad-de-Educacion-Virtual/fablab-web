@@ -24,7 +24,7 @@ import Inicio from "./pages/inicio/Inicio";
 import AppLayout from "./layouts/AppLayout";
 
 export default function Router() {
-  const { token } = useAuth();
+  const { token, claims } = useAuth();
 
   const routesForNotAuthenticatedOnly = [
     {
@@ -45,11 +45,14 @@ export default function Router() {
       children: [
         {
           index: true,
-          element: (
-            <ProtectedRoute roles={[ROLE.ADMIN]}>
-              <Inicio />
-            </ProtectedRoute>
-          ),
+          element:
+            (token === null && <ProtectedRoute />) ||
+            (claims?.rol === ROLE.ADMIN && (
+              <ProtectedRoute roles={[ROLE.ADMIN]}>
+                <Inicio />
+              </ProtectedRoute>
+            )) ||
+            (claims?.rol === ROLE.INSTRUCTOR && <Navigate to="/talleres" />),
         },
         {
           path: "talleres",

@@ -36,6 +36,7 @@ export default function InstructorModal({
       formMethods.reset({
         nombre: instructor.nombre,
         documento: instructor.documento,
+        email: instructor.email,
       });
     }
   }, [instructor]);
@@ -66,6 +67,8 @@ export default function InstructorModal({
     >
       <Input label="Nombre" name="nombre" />
       <Input label="Documento" name="documento" />
+      <Input label="Correo" name="email" />
+      <Input label="Contraseña" name="password" type="password" />
     </FormModal>
   );
 }
