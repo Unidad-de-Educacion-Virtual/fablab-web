@@ -1,8 +1,4 @@
-import {
-  Navigate,
-  RouterProvider,
-  createBrowserRouter,
-} from "react-router-dom";
+import { Navigate, RouterProvider, createHashRouter } from "react-router-dom";
 import NotFound from "./pages/NotFound";
 import Talleres from "./pages/talleres/Talleres";
 import TallerDetails from "./pages/taller-details/TallerDetails";
@@ -154,7 +150,7 @@ export default function Router() {
     },
   ];
 
-  const router = createBrowserRouter([
+  const router = createHashRouter([
     ...(!token ? routesForNotAuthenticatedOnly : []),
     ...routesForAuthenticatedOnly,
   ]);
