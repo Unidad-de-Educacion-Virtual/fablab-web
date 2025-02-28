@@ -1,15 +1,25 @@
+### STAGE 1:BASE ###
 FROM node:lts-alpine AS base
-ENV PNPM_HOME="/pnpm"
-ENV PATH="$PNPM_HOME:$PATH"
-RUN corepack enable
-COPY . /app
+
 WORKDIR /app
 
+ENV PNPM_HOME="/pnpm"
+ENV PATH="$PNPM_HOME:$PATH"
+
+RUN corepack enable
+
+COPY . /app
+
+### STAGE 2:BUILD ###
 FROM base AS build
+
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store \
     pnpm install --frozen-lockfile && \
     pnpm run build
 
-FROM nginx:alpine AS runner
+### STAGE 3:DEPLOY ###
+FROM nginx:alpine AS deploy
+
 COPY --from=build /app/dist /usr/share/nginx/html
+
 EXPOSE 80

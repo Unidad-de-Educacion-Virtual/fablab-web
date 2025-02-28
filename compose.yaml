@@ -1,8 +1,13 @@
+name: fablab-service
+
 services:
-  frontend:
+  fablab-web:
     build: .
-    environment:
-      VITE_API_BASE_URL: ${VITE_API_BASE_URL}
-      VITE_BASE: ${VITE_BASE}
+    container_name: fablab-web
+    restart: unless-stopped
     ports:
-      - 5173:80
+      - 9092:80
+    env_file:
+      - ./.env
+    networks:
+      - fablab-service-network
