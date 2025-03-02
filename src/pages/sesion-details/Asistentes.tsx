@@ -10,33 +10,31 @@ import { useService } from "../../hooks/useService";
 import { Asistente, AsistenteForm } from "../../types/Asistente";
 import { Inscripcion } from "../../types/Inscripcion";
 import { toast } from "sonner";
+import { Sesion } from "../../types/Sesion";
 
 interface AsistentesProps {
-  sesionId: number;
+  sesion: Sesion;
   refreshSesion: () => void;
 }
 
-export default function Asistentes({
-  sesionId,
-  refreshSesion,
-}: AsistentesProps) {
+export default function Asistentes({ sesion, refreshSesion }: AsistentesProps) {
   const { token } = useAuth();
   const { data: inscripciones } = useService(async () => {
     return await getEntity<Inscripcion>(
       API_INSCRIPCION_PATH,
-      `sesionId=${sesionId}`,
+      `programacionId=${sesion.programacion.id}`,
       token
     );
-  }, [API_INSCRIPCION_PATH, sesionId]);
+  }, [API_INSCRIPCION_PATH, sesion]);
 
   const { data: asistentes, refresh: refreshAsistentes } =
     useService(async () => {
       return await getEntity<Asistente>(
         API_ASISTENTE_PATH,
-        `sesionId=${sesionId}`,
+        `sesionId=${sesion.id}`,
         token
       );
-    }, [API_ASISTENTE_PATH, sesionId]);
+    }, [API_ASISTENTE_PATH, sesion]);
 
   async function toggleAssist(inscripcion: Inscripcion) {
     const participanteId = inscripcion.participante.id;
@@ -53,7 +51,7 @@ export default function Asistentes({
           API_ASISTENTE_PATH,
           {
             participanteId: participanteId,
-            sesionId,
+            sesionId: sesion.id,
           },
           token
         );

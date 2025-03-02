@@ -25,7 +25,7 @@ export default function SesionDetails() {
       <BreadCrumb />
       <div className="grid gap-8">
         <SesionSection sesion={sesion} refresh={refresh} />
-        <Asistentes sesionId={id} refreshSesion={refresh} />
+        <Asistentes sesion={sesion} refreshSesion={refresh} />
         <Evidencias sesionId={id} />
       </div>
     </>
