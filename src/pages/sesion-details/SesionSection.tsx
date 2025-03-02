@@ -1,6 +1,4 @@
-import { useService } from "../../hooks/useService";
-import { getEntityById } from "../../services/BackendService";
-import { API_SESION_PATH, ROLE } from "../../config";
+import { ROLE } from "../../config";
 import PropertyValue from "../../components/PropertyValue";
 import InformationLayout from "../../layouts/Informationlayout";
 import { Sesion } from "../../types/Sesion";
@@ -8,19 +6,16 @@ import SesionModal from "../../components/modals/SesionModal";
 import { useAuth } from "../../providers/AuthProvider";
 
 interface SesionSectionProps {
-  id: number;
+  sesion: Sesion;
+  refresh: () => void;
 }
 
-export default function SesionSection({ id }: SesionSectionProps) {
-  const { token, claims } = useAuth();
-  const { data: sesion, refresh } = useService(
-    async () => await getEntityById<Sesion>(API_SESION_PATH, id, token),
-    [id]
-  );
+export default function SesionSection({ sesion, refresh }: SesionSectionProps) {
+  const { claims } = useAuth();
 
   return (
     <InformationLayout
-      entityId={id}
+      entityId={sesion.id}
       EntityModal={SesionModal}
       refresh={refresh}
       enableEdit={claims ? [ROLE.ADMIN].includes(claims.rol) : false}

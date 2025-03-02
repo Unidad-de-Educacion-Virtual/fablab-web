@@ -1,42 +1,102 @@
-import { GridColDef } from "@mui/x-data-grid";
-import BasicCrudLayout from "../../layouts/BasicCrudLayout";
-import { API_ASISTENTE_PATH, ROLE } from "../../config";
-import { Participante } from "../../types/Participante";
-import AsistenteModal from "../../components/modals/AsistenteModal";
+import { API_ASISTENTE_PATH, API_INSCRIPCION_PATH } from "../../config";
 import { useAuth } from "../../providers/AuthProvider";
+import ContentLayout from "../../layouts/ContentLayout";
+import {
+  createEntity,
+  deleteEntity,
+  getEntity,
+} from "../../services/BackendService";
+import { useService } from "../../hooks/useService";
+import { Asistente, AsistenteForm } from "../../types/Asistente";
+import { Inscripcion } from "../../types/Inscripcion";
+import { toast } from "sonner";
 
 interface AsistentesProps {
-  sesionId?: number;
+  sesionId: number;
+  refreshSesion: () => void;
 }
 
-export default function Asistentes({ sesionId }: AsistentesProps) {
-  const { claims } = useAuth();
+export default function Asistentes({
+  sesionId,
+  refreshSesion,
+}: AsistentesProps) {
+  const { token } = useAuth();
+  const { data: inscripciones } = useService(async () => {
+    return await getEntity<Inscripcion>(
+      API_INSCRIPCION_PATH,
+      `sesionId=${sesionId}`,
+      token
+    );
+  }, [API_INSCRIPCION_PATH, sesionId]);
 
-  const columns: GridColDef[] = [
-    {
-      field: "id",
-      headerName: "Id",
-      flex: 1,
-    },
-    {
-      field: "participante",
-      headerName: "Participante",
-      valueGetter: (participante: Participante) => participante.nombre,
-      flex: 2,
-    },
-  ];
+  const { data: asistentes, refresh: refreshAsistentes } =
+    useService(async () => {
+      return await getEntity<Asistente>(
+        API_ASISTENTE_PATH,
+        `sesionId=${sesionId}`,
+        token
+      );
+    }, [API_ASISTENTE_PATH, sesionId]);
 
-  const action = claims ? [ROLE.ADMIN].includes(claims.rol) : false;
+  async function toggleAssist(inscripcion: Inscripcion) {
+    const participanteId = inscripcion.participante.id;
+
+    const asistente = asistentes?.find(
+      (asistente) => asistente.participante.id === participanteId
+    );
+
+    try {
+      if (asistente) {
+        await deleteEntity<Asistente>(API_ASISTENTE_PATH, asistente.id, token);
+      } else {
+        await createEntity<AsistenteForm, Asistente>(
+          API_ASISTENTE_PATH,
+          {
+            participanteId: participanteId,
+            sesionId,
+          },
+          token
+        );
+      }
+    } catch (error: any) {
+      if (error.message) {
+        toast.error(`${error}`);
+      }
+    } finally {
+      refreshAsistentes();
+      refreshSesion();
+    }
+  }
 
   return (
-    <BasicCrudLayout
-      parentId={sesionId}
-      action={action ? "delete" : null}
-      queryParams={sesionId ? `sesionId=${sesionId}` : ""}
-      apiPath={API_ASISTENTE_PATH}
-      columns={columns}
-      title="Asistentes"
-      EntityModal={AsistenteModal}
-    />
+    <ContentLayout title="Asistentes">
+      <div className="w-full grid gap-2">
+        {inscripciones &&
+          inscripciones.map((inscripcion) => {
+            const isAsistente =
+              asistentes?.find(
+                (asistente) =>
+                  asistente.participante.id === inscripcion.participante.id
+              ) !== undefined;
+
+            return (
+              <label
+                className={`flex items-center gap-2 p-2 ${
+                  isAsistente ? "bg-green-200" : ""
+                } rounded-lg hover:cursor-pointer`}
+                key={inscripcion.id}
+              >
+                <input
+                  type="checkbox"
+                  checked={isAsistente}
+                  onChange={() => toggleAssist(inscripcion)}
+                />
+
+                {inscripcion.participante.nombre}
+              </label>
+            );
+          })}
+      </div>
+    </ContentLayout>
   );
 }

@@ -1,4 +1,4 @@
-import { Toaster, toast } from "sonner";
+import { toast } from "sonner";
 import Button from "../../components/Button";
 import CustomModal from "./CustomModal";
 import {
@@ -132,7 +132,6 @@ export default function FormModal<T extends FieldValues, U>({
 
   return (
     <>
-      <Toaster position="top-center" richColors />
       <CustomModal open={open} setOpen={setOpen}>
         <h2 className="text-xl font-bold mb-6">{title}</h2>
 

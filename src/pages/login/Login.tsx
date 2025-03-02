@@ -32,7 +32,7 @@ export default function Login() {
         backgroundImage: `url(${bgImage})`,
       }}
     >
-      <div className=" min-h-screen flex items-center justify-center bg-red-500 bg-opacity-80">
+      <div className=" min-h-screen flex items-center justify-center bg-red-500/80">
         <Toaster position="top-center" richColors />
         <FormProvider {...formMethods}>
           <div className="grid items-center justify-items-center gap-8 lg:grid-cols-[auto_1fr] p-8 m-4 bg-white rounded-xl shadow-lg">
