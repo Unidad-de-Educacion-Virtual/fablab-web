@@ -1,5 +1,5 @@
 import { Popover } from "@mui/material";
-import ProfileImage from "../assets/images/profile.png";
+import ProfileImage from "../assets/images/profile.svg";
 import { MouseEvent, useState } from "react";
 import { Link } from "react-router-dom";
 import Button from "./Button";
