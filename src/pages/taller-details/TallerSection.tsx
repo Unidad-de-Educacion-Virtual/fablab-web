@@ -25,8 +25,21 @@ export default function TallerSection({ id }: TallerSectionProps) {
       refresh={refresh}
       enableEdit={claims ? [ROLE.ADMIN].includes(claims.rol) : false}
     >
-      <PropertyValue name="Nombre" value={taller?.nombre} />
-      <PropertyValue name="Descripción" value={taller?.descripcion} />
+      <div className="grid gap-4">
+        <PropertyValue
+          name="Nombre"
+          value={taller?.nombre}
+          icon="material-symbols:book-2-rounded"
+          color="text-red-600"
+        />
+
+        <PropertyValue
+          name="Descripción"
+          value={taller?.descripcion}
+          icon="material-symbols:chat-rounded"
+          color="text-orange-600"
+        />
+      </div>
     </InformationLayout>
   );
 }
