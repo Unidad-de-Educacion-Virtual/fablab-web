@@ -23,7 +23,7 @@ export default function DataTable({ rows, columns }: DataTableProps) {
         disableColumnResize
         slotProps={{
           row: {
-            className: "[&:nth-child(even)]:bg-gray-100",
+            className: "even:bg-gray-100",
           },
           pagination: {
             labelRowsPerPage: "Mostrar filas por página:",

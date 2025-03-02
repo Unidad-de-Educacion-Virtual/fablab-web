@@ -12,7 +12,7 @@ export default function ContentLayout({
   children,
 }: ContentLayoutInterface) {
   return (
-    <section className="max-w-screen-2xl mx-auto w-full">
+    <section className="max-w-(--breakpoint-2xl) mx-auto w-full">
       <div className="flex justify-between items-center">
         <h1 className="font-bold text-2xl">{title}</h1>
         {button}

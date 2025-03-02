@@ -26,7 +26,7 @@ export default function UserBadge() {
       <Popover
         slotProps={{
           paper: {
-            className: "!rounded-xl",
+            className: "rounded-xl!",
           },
         }}
         open={open}

@@ -1,4 +1,4 @@
-import { Modal } from "@mui/base";
+import { Dialog } from "@base-ui-components/react/dialog";
 import { ReactNode } from "react";
 
 interface CustomModalProps {
@@ -13,7 +13,22 @@ export default function CustomModal({
   children,
 }: CustomModalProps) {
   return (
-    <Modal
+    <Dialog.Root open={open}>
+      <Dialog.Portal keepMounted>
+        <Dialog.Backdrop
+          className="fixed inset-0 bg-black/50 z-10"
+          onClick={() => setOpen(false)}
+        />
+        <Dialog.Popup className="fixed top-1/2 left-1/2 -translate-1/2 bg-white p-6 rounded-lg  shadow-lg w-fit max-h-full overflow-scroll z-20">
+          {children}
+        </Dialog.Popup>
+      </Dialog.Portal>
+    </Dialog.Root>
+
+    /*
+    
+    
+    <Dialog
       open={open}
       slots={{ backdrop: "div" }}
       slotProps={{
@@ -22,7 +37,7 @@ export default function CustomModal({
         },
         backdrop: {
           onClick: () => setOpen(false),
-          className: "fixed inset-0 bg-black bg-opacity-50 -z-10",
+          className: "fixed inset-0 bg-black/50 -z-10",
         },
       }}
     >
@@ -31,6 +46,6 @@ export default function CustomModal({
       >
         {children}
       </div>
-    </Modal>
+    */
   );
 }

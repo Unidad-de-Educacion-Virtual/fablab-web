@@ -20,7 +20,7 @@ export default function SidebarDesktop() {
         >
           <Icon icon="material-symbols:menu-rounded" width="24" height="24" />
         </div>
-        <div className={`inline-block w-fit mr-2 ${!open ? "hidden" : ""}`}>
+        <div className={`w-fit mr-2 ${!open ? "hidden" : "inline-block"}`}>
           <UserBadge />
         </div>
       </div>
