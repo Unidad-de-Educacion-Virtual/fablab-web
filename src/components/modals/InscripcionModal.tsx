@@ -14,6 +14,7 @@ import { Inscripcion, InscripcionForm } from "../../types/Inscripcion";
 import { Participante } from "../../types/Participante";
 import { Programacion } from "../../types/Programacion";
 import { useAuth } from "../../providers/AuthProvider";
+import SelectSearch from "../SelectSearch";
 
 export default function InscripcionModal({
   open,
@@ -34,6 +35,10 @@ export default function InscripcionModal({
       return await getEntityById<Inscripcion>(API_INSCRIPCION_PATH, id, token);
     }
   }, [API_INSCRIPCION_PATH, id]);
+
+  const { data: inscritos } = useService(async () => {
+    return await getEntity<Inscripcion>(API_INSCRIPCION_PATH, `programacionId=${parentId}`, token);
+  }, [API_PARTICIPANTE_PATH]);
 
   const { data: programaciones } = useService(async () => {
     return await getEntity<Programacion>(API_PROGRAMACION_PATH, "", token);
@@ -76,8 +81,8 @@ export default function InscripcionModal({
         mode === "edit"
           ? "Editar Inscripción"
           : mode === "create"
-          ? "Crear Inscripción"
-          : ""
+            ? "Crear Inscripción"
+            : ""
       }
       onDelete={onDelete}
       onEdit={onEdit}
@@ -94,15 +99,17 @@ export default function InscripcionModal({
           })}
         </Select>
       )}
-      <Select name="participanteId" label="Participante">
-        {participantes?.map((participante, i) => {
+      <SelectSearch name="participanteId" label="Participante">
+        {participantes?.filter((participante) => {
+          return inscritos?.find(inscrito => inscrito.participante.id === participante.id) === undefined;
+        }).map((participante, i) => {
           return (
             <option value={participante.id} key={i}>
               {participante.nombre}
             </option>
           );
         })}
-      </Select>
+      </SelectSearch>
     </FormModal>
   );
 }
