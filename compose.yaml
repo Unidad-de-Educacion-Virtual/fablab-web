@@ -11,3 +11,7 @@ services:
       - ./.env
     networks:
       - fablab-service-network
+networks:
+    fablab-service-network:
+        name: fablab-service-network
+        driver: bridge
