@@ -3,6 +3,9 @@ FROM node:lts-alpine AS base
 
 WORKDIR /app
 
+ARG VITE_BASE="/"
+ARG VITE_API_BASE_URL
+
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
 
@@ -20,6 +23,8 @@ RUN --mount=type=cache,id=pnpm,target=/pnpm/store \
 ### STAGE 3:DEPLOY ###
 FROM nginx:alpine AS deploy
 
-COPY --from=build /app/dist /usr/share/nginx/html
+ARG VITE_BASE="/"
+
+COPY --from=build /app/dist /usr/share/nginx/html${VITE_BASE}
 
 EXPOSE 80
