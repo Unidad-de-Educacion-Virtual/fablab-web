@@ -11,6 +11,8 @@ services:
     restart: unless-stopped
     ports:
       - 9092:80
+    env_file:
+      - ./.env
     networks:
       - fablab-service-network
 networks:
